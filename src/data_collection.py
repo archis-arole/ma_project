@@ -1,24 +1,32 @@
 import requests
 import datetime
-import time
 from pathlib import Path
 
-BASE = "https://archives.nseindia.com/content/historical/DERIVATIVES"
+base1 = "https://archives.nseindia.com/content/historical/DERIVATIVES"
+base2 = "https://nsearchives.nseindia.com/content/fo"
+# At this date the format of filename download changed.
+date_change = datetime.date(2024, 7, 5)
 folder = Path("../data/bhavcopies/")
 start = datetime.date(2024, 7, 1)
-end = datetime.date(2025, 8, 1)
+end = datetime.date(2024, 8, 1)
 date = start
 
 while date <= end:
     day = date.strftime("%d")
-    month = date.strftime("%b").upper()
+    month1 = date.strftime("%b").upper()
+    month2 = date.strftime("%m")
     year = date.strftime("%Y")
-    filename = f"fo{day}{month}{year}bhav.csv.zip"
-    url = f"{BASE}/{year}/{month}/{filename}"
+    if date <= date_change:
+        filename = f"fo{day}{month1}{year}bhav.csv.zip"
+        url = f"{base1}/{year}/{month1}/{filename}"
+    else:
+        filename = f"BhavCopy_NSE_FO_0_0_0_{year}{month2}{day}_F_0000.csv.zip"
+        url = f"{base2}/{filename}"
 
     try:
         r = requests.get(
             url,
+            headers={"User-Agent": "Mozilla/5.0"},
             timeout=10
         )
         if r.status_code == 200:
@@ -32,4 +40,3 @@ while date <= end:
         print("Error:", filename, e)
 
     date += datetime.timedelta(days=1)
-    time.sleep(0.5)
