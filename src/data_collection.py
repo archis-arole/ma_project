@@ -1,14 +1,21 @@
 import requests
+import logging
 import datetime
 from pathlib import Path
+
+logging.basicConfig(
+    filename='download.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 base1 = "https://archives.nseindia.com/content/historical/DERIVATIVES"
 base2 = "https://nsearchives.nseindia.com/content/fo"
 # At this date the format of filename download changed.
 date_change = datetime.date(2024, 7, 5)
 folder = Path("../data/bhavcopies/")
-start = datetime.date(2024, 7, 1)
-end = datetime.date(2024, 8, 1)
+start = datetime.date(2016, 4, 6)
+end = datetime.date(2026, 4, 6)
 date = start
 
 while date <= end:
@@ -33,10 +40,10 @@ while date <= end:
             with open(folder/filename, 'wb') as f:
                 f.write(r.content)
 
-            print("Downloaded:", filename)
+            logging.info(f"Downloaded {filename}")
         else:
-            print("Missing:", filename)
+            logging.warning(f"Missing {filename}")
     except Exception as e:
-        print("Error:", filename, e)
+        logging.error(f"Error {filename}: {e}")
 
     date += datetime.timedelta(days=1)
