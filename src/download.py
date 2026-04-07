@@ -24,11 +24,10 @@ while date <= end:
     month1 = date.strftime("%b").upper()
     month2 = date.strftime("%m")
     year = date.strftime("%Y")
+    filename = config.filename(date)
     if date <= date_change:
-        filename = f"fo{day}{month1}{year}bhav.csv.zip"
         url = f"{base1}/{year}/{month1}/{filename}"
     else:
-        filename = f"BhavCopy_NSE_FO_0_0_0_{year}{month2}{day}_F_0000.csv.zip"
         url = f"{base2}/{filename}"
 
     try:
@@ -42,9 +41,12 @@ while date <= end:
                 f.write(r.content)
 
             logging.info(f"Downloaded {filename}")
+            print(f"Downloaded {filename}")
         else:
             logging.warning(f"Missing {filename}")
+            print(f"Missing {filename}")
     except Exception as e:
         logging.error(f"Error {filename}: {e}")
+        print(f"Error {filename}: {e}")
 
     date += datetime.timedelta(days=1)
