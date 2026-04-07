@@ -26,9 +26,9 @@ while date <= end:
     year = date.strftime("%Y")
     filename = config.filename(date)
     if date <= date_change:
-        url = f"{base1}/{year}/{month1}/{filename}"
+        url = f"{base1}/{year}/{month1}/{filename}.zip"
     else:
-        url = f"{base2}/{filename}"
+        url = f"{base2}/{filename}.zip"
 
     try:
         r = requests.get(
@@ -37,11 +37,11 @@ while date <= end:
             timeout=10
         )
         if r.status_code == 200:
-            with open(folder/filename, 'wb') as f:
+            with open(folder/f"{filename}.zip", 'wb') as f:
                 f.write(r.content)
 
-            logging.info(f"Downloaded {filename}")
-            print(f"Downloaded {filename}")
+            logging.info(f"Downloaded {filename}.zip")
+            print(f"Downloaded {filename}.zip")
         else:
             logging.warning(f"Missing {filename}")
             print(f"Missing {filename}")

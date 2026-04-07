@@ -15,7 +15,7 @@ def filename(date):
     month2 = date.strftime("%m")
     year = date.strftime("%Y")
     if date <= CHANGE_DATE:
-        name = f"fo{day}{month1}{year}bhav.csv.zip"
+        name = f"fo{day}{month1}{year}bhav.csv"
     else:
-        name = f"BhavCopy_NSE_FO_0_0_0_{year}{month2}{day}_F_0000.csv.zip"
+        name = f"BhavCopy_NSE_FO_0_0_0_{year}{month2}{day}_F_0000.csv"
     return name
