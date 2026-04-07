@@ -1,3 +1,4 @@
+import config
 import requests
 import logging
 import datetime
@@ -12,10 +13,10 @@ logging.basicConfig(
 base1 = "https://archives.nseindia.com/content/historical/DERIVATIVES"
 base2 = "https://nsearchives.nseindia.com/content/fo"
 # At this date the format of filename download changed.
-date_change = datetime.date(2024, 7, 5)
+date_change = config.CHANGE_DATE
 folder = Path("../data/bhavcopies/")
-start = datetime.date(2016, 4, 6)
-end = datetime.date(2026, 4, 6)
+start = config.START_DATE
+end = config.END_DATE
 date = start
 
 while date <= end:
