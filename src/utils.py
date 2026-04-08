@@ -1,4 +1,13 @@
 import matplotlib.pyplot as plt
+import subprocess
+import pandas as pd
+
+
+def view(df: pd.DataFrame):
+    ''' View df in sc-im '''
+    filename = "df_output.csv"
+    df.to_csv(filename, index=False)
+    subprocess.run(["sc-im", "-r", filename])
 
 
 def plot_equity_curve(equity_curve):
