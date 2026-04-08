@@ -18,10 +18,11 @@ def rollover(front_df, next_df):
         suffixes=("_front", "_next"),
     ).sort_values("DATE")
 
-    roll_flags = df["OI_next"] > df["OI_front"]
-    roll_indices = list(df.index[roll_flags])
+    roll_trigger = df["OI_next"] > df["OI_front"]
+    use_next = roll_trigger.groupby(df["EXPIRY_front"]).cummax()
+    roll_start = use_next & ~use_next.shift(1).fillna(False)
+    roll_indices = list(df.index[roll_start])
     combined_df = df.copy()
-    use_next = roll_flags
     combined_df["EXPIRY"] = df["EXPIRY_front"].where(
         ~use_next, df["EXPIRY_next"]
     )
