@@ -5,31 +5,37 @@ import pandas as pd
 
 def rollover(front_df, next_df):
     '''
-    A unified DataFrame based on the DataFrames
-    of the front df and next df so that the model
-    only deals with one df.
+    Build an unadjusted continuous series using OI crossover.
+    Returns:
+    - combined_df: chosen rows from front/next
+    - roll_indices: integer indices where roll happens
     '''
-    expiry_date = front_df.iloc[0, 'EXPIRY']
-    roll_indices = []
-    row_list = []
-    for i in front_df.shape[0]:
-        if expiry_date == front_df.iloc[i, 'EXPIRY']:
-            front_oi = front_df.iloc[i, 'OI']
-            next_oi = next_df.iloc[i, 'OI']
-            if front_oi < next_oi:
-                expiry_date = next_df.iloc['i', 'EXPIRY']
-                roll_indices.append(i)
-                row = next_df.iloc[i]
-            else:
-                row = front_df.iloc[i]
-        else:
-            row = next_df.iloc[i]
-        row_list.append(row)
-    combined_df = pd.concat(row_list)
+    required_cols = ["DATE", "EXPIRY", "PRICE", "OI"]
+    df = pd.merge(
+        front_df[required_cols],
+        next_df[required_cols],
+        on="DATE",
+        suffixes=("_front", "_next"),
+    ).sort_values("DATE")
+
+    roll_flags = df["OI_next"] > df["OI_front"]
+    roll_indices = list(df.index[roll_flags])
+    combined_df = df.copy()
+    use_next = roll_flags
+    combined_df["EXPIRY"] = df["EXPIRY_front"].where(
+        ~use_next, df["EXPIRY_next"]
+    )
+    combined_df["PRICE"] = df["PRICE_front"].where(
+        ~use_next, df["PRICE_next"]
+    )
+    combined_df["OI"] = df["OI_front"].where(
+        ~use_next, df["OI_next"]
+    )
+    combined_df = combined_df[["DATE", "EXPIRY", "PRICE", "OI"]]
     return combined_df, roll_indices
 
 
-def model(params, prices):
+def model(params, front_df, next_df):
     '''
     This is the moving average model.
     sp is short period of moving average.
@@ -37,6 +43,8 @@ def model(params, prices):
     Also expects long/short ratio.
     Note that this function is vectorized.
     '''
+    combined_df, roll_indices = rollover(front_df, next_df)
+    prices = combined_df['PRICE']
     returns = prices.pct_change()
     sp, lp, long_short_ratio = params
     # For now I don't want to introduce leverage
@@ -88,8 +96,9 @@ def model_stats(params, prices):
     return metrics_df
 
 
-raw_data = pd.read_csv('./nifty50_daily_last_year.csv')
-data = raw_data.copy()
-prices = data['Close']
-print(model_stats([7, 21, 1], prices))
-utils.plot_equity_curve(model([7, 21, 1], prices)[0])
+front_df = pd.read_csv('../data/processed/front_month_futures.csv')
+next_df = pd.read_csv('../data/processed/next_month_futures.csv')
+utils.view(rollover(front_df, next_df)[0])
+print(rollover(front_df, next_df)[1])
+# print(model_stats([7, 21, 1], prices))
+# utils.plot_equity_curve(model([7, 21, 1], prices)[0])
