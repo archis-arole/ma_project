@@ -118,7 +118,21 @@ The crossover model using returns earned $5\%$,
 while the crossover model using prices *lost* $11\%$.
 Of course, this is no conclusion, but just an interesting observation.
 
-- What I will do next: I will add another hold position
+- What I did next: I have added another hold position
 so that I don't square off every single day
-and then I will also include an equity curve
+and then I have also included an equity curve
 for better tracking and enhanced metrics.
+
+## Rollover and data pipeline (v2.6)
+
+- What I did: I included futures data and extracted
+the front month and next month datasets from it.
+I also implemented rollover in my core model.
+
+- Details: I have used nifty 50 daily futures data
+by downloading NSE bhavcopies from them.
+I have implemented a rollover scheme based on
+open interest of the market and have not used any other adjustments.
+
+- What I will do next: Include transaction costs like
+STT, slippage, rollover costs, etc.
