@@ -10,4 +10,4 @@ data/ contains all the datasets used.
 notes/ contains my research journal.
 
 Current status:
-Then I will include transaction costs and rollover.
+I will include transaction costs and rollover.
