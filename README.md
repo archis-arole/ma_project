@@ -10,5 +10,4 @@ data/ contains all the datasets used.
 notes/ contains my research journal.
 
 Current status:
-Collecting futures data from NSE bhavcopies.
 Then I will include transaction costs and rollover.
