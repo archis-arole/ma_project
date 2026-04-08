@@ -9,7 +9,8 @@ import pandas as pd
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='extract.log'
+    filename='extract.log',
+    filemode='w'
 )
 logger = logging.getLogger(__name__)
 
@@ -47,11 +48,16 @@ while date <= end:
             (df['SYMBOL'] == 'NIFTY')
         )
         cols_needed = ['DATE', 'EXPIRY', 'PRICE', 'OI']
-        contracts = df.loc[filt, cols_needed].sort_values('EXPIRY')
+        contracts = df.loc[filt, cols_needed].copy()
         contracts['DATE'] = pd.to_datetime(
-            contracts['DATE'], format='%d-%b-%Y').dt.strftime('%Y-%m-%d')
+            contracts['DATE'], format='%d-%b-%Y'
+        )
         contracts['EXPIRY'] = pd.to_datetime(
-            contracts['EXPIRY'], format='%d-%b-%Y').dt.strftime('%Y-%m-%d')
+            contracts['EXPIRY'], format='%d-%b-%Y'
+        )
+        contracts = contracts.sort_values('EXPIRY')
+        contracts['DATE'] = contracts['DATE'].dt.strftime('%Y-%m-%d')
+        contracts['EXPIRY'] = contracts['EXPIRY'].dt.strftime('%Y-%m-%d')
         front_row = contracts.iloc[0:1]
         next_row = contracts.iloc[1:2]
 
@@ -69,7 +75,12 @@ while date <= end:
             (df['SYMBOL'] == 'NIFTY')
         )
         cols_needed = ['DATE', 'EXPIRY', 'PRICE', 'OI']
-        contracts = df.loc[filt, cols_needed].sort_values('EXPIRY')
+        contracts = df.loc[filt, cols_needed].copy()
+        contracts['DATE'] = pd.to_datetime(contracts['DATE'])
+        contracts['EXPIRY'] = pd.to_datetime(contracts['EXPIRY'])
+        contracts = contracts.sort_values('EXPIRY')
+        contracts['DATE'] = contracts['DATE'].dt.strftime('%Y-%m-%d')
+        contracts['EXPIRY'] = contracts['EXPIRY'].dt.strftime('%Y-%m-%d')
         front_row = contracts.iloc[0:1]
         next_row = contracts.iloc[1:2]
 
