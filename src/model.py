@@ -3,6 +3,32 @@ import utils
 import pandas as pd
 
 
+def rollover(front_df, next_df):
+    '''
+    A unified DataFrame based on the DataFrames
+    of the front df and next df so that the model
+    only deals with one df.
+    '''
+    expiry_date = front_df.iloc[0, 'EXPIRY']
+    roll_indices = []
+    row_list = []
+    for i in front_df.shape[0]:
+        if expiry_date == front_df.iloc[i, 'EXPIRY']:
+            front_oi = front_df.iloc[i, 'OI']
+            next_oi = next_df.iloc[i, 'OI']
+            if front_oi < next_oi:
+                expiry_date = next_df.iloc['i', 'EXPIRY']
+                roll_indices.append(i)
+                row = next_df.iloc[i]
+            else:
+                row = front_df.iloc[i]
+        else:
+            row = next_df.iloc[i]
+        row_list.append(row)
+    combined_df = pd.concat(row_list)
+    return combined_df, roll_indices
+
+
 def model(params, prices):
     '''
     This is the moving average model.
