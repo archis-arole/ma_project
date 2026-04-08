@@ -1,10 +1,10 @@
 import config
+import utils
 import os
 import logging
 from pathlib import Path
 import datetime
 import pandas as pd
-import subprocess
 
 logging.basicConfig(
     level=logging.INFO,
@@ -12,14 +12,6 @@ logging.basicConfig(
     filename='extract.log'
 )
 logger = logging.getLogger(__name__)
-
-
-def view(df: pd.DataFrame):
-    ''' View df in sc-im '''
-    filename = 'df_output.csv'
-    df.to_csv(filename, index=False)
-    subprocess.run(['sc-im', '-r', filename])
-
 
 folder = Path('../data/bhavcopies/')
 start = config.START_DATE
@@ -102,5 +94,5 @@ logger.info(f"next_df:  {len(next_df)} rows, {next_df['DATE'].min()} "
 front_df.to_csv('../data/processed/front_month_futures.csv')
 next_df.to_csv('../data/processed/next_month_futures.csv')
 logger.info("CSVs saved: front_month_futures.csv, next_month_futures.csv")
-view(front_df)
-view(next_df)
+utils.view(front_df)
+utils.view(next_df)

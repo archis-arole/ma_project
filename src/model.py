@@ -1,9 +1,6 @@
 import numpy as np
+import utils
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-sns.set_theme()
 
 
 def model(params, prices):
@@ -69,4 +66,4 @@ raw_data = pd.read_csv('./nifty50_daily_last_year.csv')
 data = raw_data.copy()
 prices = data['Close']
 print(model_stats([7, 21, 1], prices))
-plot_equity_curve(model([7, 21, 1], prices)[0])
+utils.plot_equity_curve(model([7, 21, 1], prices)[0])
