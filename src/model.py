@@ -57,6 +57,7 @@ def model(params, front_df, next_df):
     ma_short = prices.rolling(sp).mean().shift(1)[lp + 1:]
     ma_long = prices.rolling(lp).mean().shift(1)[lp + 1:]
     signal = ma_long < ma_short
+    position_change = signal.diff()
     trade = signal.ne(signal.shift(1))
     trade.iloc[0] = True
 
@@ -68,8 +69,19 @@ def model(params, front_df, next_df):
 
     cost = pd.Series(0.0, index=model_returns.index)
     slippage_bps = 0.0002
-    cost += slippage_bps * int(trade)
-    return equity_curve, model_returns
+    trade_aligned = trade.reindex(model_returns.index).fillna(False)
+    cost += slippage_bps * trade_aligned.astype(float)
+
+    STT = 0.05
+    position_change_aligned = position_change.reindex(
+        model_returns.index
+    ).fillna(False)
+    STT_weight = min(position_change_aligned, 0)
+    cost += STT * STT_weight
+
+    net_returns = model_returns - cost
+    equity_curve = (1 + net_returns).cumprod()
+    return equity_curve, net_returns
 
 
 def model_stats(params, prices):
