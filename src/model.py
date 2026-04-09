@@ -49,77 +49,48 @@ def model(params, front_df, next_df):
     front_df: It is the DataFrame of the front month futures
     next_df: It is the DataFrame of the next month futures
     '''
-    combined_df, roll_indices = rollover(front_df, next_df)
-    prices = combined_df['PRICE']
+    df, roll_indices = rollover(front_df, next_df)
+    prices = df['PRICE']
     returns = prices.pct_change()
     sp, lp = params
 
     ma_short = prices.rolling(sp).mean().shift(1)[lp + 1:]
     ma_long = prices.rolling(lp).mean().shift(1)[lp + 1:]
     signal = ma_long < ma_short
-    position_change = signal.diff()
+    position = pd.Series(
+        np.where(signal, 1, -1), index=signal.index
+    )
+    position_change = position.diff().fillna(0)
     trade = signal.ne(signal.shift(1))
     trade.iloc[0] = True
 
     returns_aligned = returns.reindex(signal.index).dropna()
-    signal_aligned = signal.loc[returns_aligned.index]
     model_returns = returns_aligned * np.where(
-        signal_aligned, 1, -1
+        signal, 1, -1
     )
 
     cost = pd.Series(0.0, index=model_returns.index)
     slippage_bps = 0.0002
-    trade_aligned = trade.reindex(model_returns.index).fillna(False)
-    cost += slippage_bps * trade_aligned.astype(float)
+    cost += slippage_bps * trade.astype(float)
 
-    STT = 0.05
-    position_change_aligned = position_change.reindex(
-        model_returns.index
-    ).fillna(False)
-    STT_weight = min(position_change_aligned, 0)
-    cost += STT * STT_weight
+    cost = pd.Series(0.0, index=model_returns.index)
+    stt_rate = 0.0005
+    sell_amount = (-position_change).clip(lower=0)
+    cost += stt_rate * sell_amount
+
+    roll_flag = pd.Series(
+        model_returns.index.isin(roll_indices),
+        index=model_returns.index
+    )
+    cost += 2 * slippage_bps * roll_flag.astype(float)  # exit + entry
+    cost += stt_rate * roll_flag.astype(float)           # sell leg
 
     net_returns = model_returns - cost
     equity_curve = (1 + net_returns).cumprod()
+
     return equity_curve, net_returns
-
-
-def model_stats(params, prices):
-    equity_curve, model_returns = model(params, prices)
-    equity = equity_curve.iloc[-1]
-    mean_returns = model_returns.mean()
-    std_returns = model_returns.std(ddof=1)
-    sharpe_ratio = mean_returns / std_returns * np.sqrt(252)
-    years = len(equity_curve) / 252
-    CAGR = equity ** (1 / years) - 1
-    running_max = equity_curve.cummax()
-    drawdown = equity_curve / running_max - 1
-    max_drawdown = drawdown.min()
-    metrics = [
-        "Mean Return",
-        "Volatility",
-        "Sharpe",
-        "CAGR",
-        "Max Drawdown",
-        "Equity",
-    ]
-    values = [
-        mean_returns,
-        std_returns,
-        sharpe_ratio,
-        CAGR,
-        max_drawdown,
-        equity,
-    ]
-    metrics_df = pd.DataFrame(
-        {"metrics": metrics, "value": values}
-    )
-    return metrics_df
 
 
 front_df = pd.read_csv('../data/processed/front_month_futures.csv')
 next_df = pd.read_csv('../data/processed/next_month_futures.csv')
-utils.view(rollover(front_df, next_df)[0])
-print(rollover(front_df, next_df)[1])
-# print(model_stats([7, 21, 1], prices))
-# utils.plot_equity_curve(model([7, 21, 1], prices)[0])
+model([7, 21], front_df, next_df)
