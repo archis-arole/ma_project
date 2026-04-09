@@ -1,5 +1,4 @@
 import numpy as np
-import utils
 import pandas as pd
 
 
@@ -61,29 +60,28 @@ def model(params, front_df, next_df):
         np.where(signal, 1, -1), index=signal.index
     )
     position_change = position.diff().fillna(0)
-    trade = signal.ne(signal.shift(1))
-    trade.iloc[0] = True
 
     returns_aligned = returns.reindex(signal.index).dropna()
     model_returns = returns_aligned * np.where(
         signal, 1, -1
     )
 
-    cost = pd.Series(0.0, index=model_returns.index)
     slippage_bps = 0.0002
-    cost += slippage_bps * trade.astype(float)
-
-    cost = pd.Series(0.0, index=model_returns.index)
     stt_rate = 0.0005
-    sell_amount = (-position_change).clip(lower=0)
-    cost += stt_rate * sell_amount
-
     roll_flag = pd.Series(
         model_returns.index.isin(roll_indices),
         index=model_returns.index
     )
-    cost += 2 * slippage_bps * roll_flag.astype(float)  # exit + entry
-    cost += stt_rate * roll_flag.astype(float)           # sell leg
+    trade_size = position_change.abs()
+    extra_roll = roll_flag & (trade_size == 0)
+
+    legs = trade_size + 2 * extra_roll.astype(int)
+    slippage_cost = slippage_bps * legs
+
+    sell_legs = (-position_change).clip(lower=0) + extra_roll.astype(int)
+    stt_cost = stt_rate * sell_legs
+
+    cost = slippage_cost + stt_cost
 
     net_returns = model_returns - cost
     equity_curve = (1 + net_returns).cumprod()
@@ -93,4 +91,4 @@ def model(params, front_df, next_df):
 
 front_df = pd.read_csv('../data/processed/front_month_futures.csv')
 next_df = pd.read_csv('../data/processed/next_month_futures.csv')
-model([7, 21], front_df, next_df)
+print(model([7, 21], front_df, next_df))
