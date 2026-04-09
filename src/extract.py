@@ -23,6 +23,7 @@ front_month_rows = []
 next_month_rows = []
 skipped = 0
 logger.info(f"Starting extraction: {start} to {end}")
+print(f"Starting extraction: {start} to {end}")
 
 while date <= end:
     name = config.filename(date)
@@ -31,6 +32,7 @@ while date <= end:
     else:
         date += datetime.timedelta(days=1)
         logger.debug(f"File not found, skipping: {name}")
+        print(f"File not found, skipping: {name}")
         skipped += 1
         continue
 
@@ -86,8 +88,10 @@ while date <= end:
 
     if front_row.empty or next_row.empty:
         logger.warning(f"Missing front or next contract on {date}")
+        print(f"Missing front or next contract on {date}")
     else:
         logger.info(f"Successfully extracted {name}")
+        print(f"Successfully extracted {name}")
 
     front_month_rows.append(front_row)
     next_month_rows.append(next_row)
@@ -95,15 +99,22 @@ while date <= end:
 
 logger.info(f"Loop complete - {len(front_month_rows)} trading days processed,"
             f" {skipped} files skipped")
+print(f"Loop complete - {len(front_month_rows)} trading days processed, "
+      f"{skipped} files skipped")
 
 front_df = pd.concat(front_month_rows, ignore_index=True)
 next_df = pd.concat(next_month_rows, ignore_index=True)
 logger.info(f"front_df: {len(front_df)} rows, {front_df['DATE'].min()} "
             f"to {front_df['DATE'].max()}")
+print(f"front_df: {len(front_df)} rows, {front_df['DATE'].min()} "
+      f"to {front_df['DATE'].max()}")
 logger.info(f"next_df:  {len(next_df)} rows, {next_df['DATE'].min()} "
             f"to {next_df['DATE'].max()}")
+print(f"next_df:  {len(next_df)} rows, {next_df['DATE'].min()} "
+      f"to {next_df['DATE'].max()}")
 front_df.to_csv('../data/processed/front_month_futures.csv')
 next_df.to_csv('../data/processed/next_month_futures.csv')
 logger.info("CSVs saved: front_month_futures.csv, next_month_futures.csv")
+print("CSVs saved: front_month_futures.csv, next_month_futures.csv")
 utils.view(front_df)
 utils.view(next_df)
