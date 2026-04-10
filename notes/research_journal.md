@@ -169,5 +169,5 @@ Max Drawdown refers to the maximum drawdown of returns using the model.
 
 We observe that both models return negative return.
 Here, we observe that crossover over prices beats returns
-after we include transaction costs [but not before]
-(price-vs-returns-%28v2.3%29).
+after we include transaction costs
+[but not before](#price-vs-returns-v2.3).
