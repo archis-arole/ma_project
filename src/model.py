@@ -35,7 +35,7 @@ def rollover(front_df, next_df):
     return combined_df, roll_indices
 
 
-def model(params, front_df, next_df):
+def model(sp, lp, front_df, next_df, slippage_bps=0.0002, stt_rate=0.0005):
     '''
     This is the moving average model.
     sp is short period of moving average.
@@ -51,7 +51,6 @@ def model(params, front_df, next_df):
     df, roll_indices = rollover(front_df, next_df)
     prices = df['PRICE']
     returns = prices.pct_change()
-    sp, lp = params
 
     ma_short = prices.rolling(sp).mean().shift(1)[lp + 1:]
     ma_long = prices.rolling(lp).mean().shift(1)[lp + 1:]
@@ -89,6 +88,41 @@ def model(params, front_df, next_df):
     return equity_curve, net_returns
 
 
+def model_stats(sp, lp, front_df, next_df,
+                slippage_bps=0.0002, stt_rate=0.0005):
+    equity_curve, model_returns = model(sp, lp, front_df, next_df,
+                                        slippage_bps, stt_rate)
+    equity = equity_curve.iloc[-1]
+    mean_returns = model_returns.mean()
+    std_returns = model_returns.std(ddof=1)
+    sharpe_ratio = mean_returns / std_returns * np.sqrt(252)
+    years = len(equity_curve) / 252
+    CAGR = equity ** (1 / years) - 1
+    running_max = equity_curve.cummax()
+    drawdown = equity_curve / running_max - 1
+    max_drawdown = drawdown.min()
+    metrics = [
+        "Mean Return",
+        "Volatility",
+        "Sharpe",
+        "CAGR",
+        "Max Drawdown",
+        "Equity",
+    ]
+    values = [
+        mean_returns,
+        std_returns,
+        sharpe_ratio,
+        CAGR,
+        max_drawdown,
+        equity,
+    ]
+    metrics_df = pd.DataFrame(
+        {"metrics": metrics, "value": values}
+    )
+    return metrics_df
+
+
 front_df = pd.read_csv('../data/processed/front_month_futures.csv')
 next_df = pd.read_csv('../data/processed/next_month_futures.csv')
-print(model([7, 21], front_df, next_df))
+print(model_stats(7, 21, front_df, next_df))
