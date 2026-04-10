@@ -134,5 +134,35 @@ by downloading NSE bhavcopies from them.
 I have implemented a rollover scheme based on
 open interest of the market and have not used any other adjustments.
 
-- What I will do next: Include transaction costs like
+- What I did next: Include transaction costs like
 STT, slippage, rollover costs, etc.
+
+## Transaction costs (v3.0)
+
+- What I did: I included transaction costs resulting from
+STT, slippage and rollover of futures in the core model.
+
+- Observation: I ran the model using these parameters:
+
+    - Short window of crossover: $7$ days
+    - Long window of crossover: $21$ days
+    - STT rate: $0.05\%$ for every sell position
+    - Slippage rate: $0.02\%$ for every trade
+
+These are the results for crossover over prices:
+
+        metrics     value
+0   Mean Return -0.000125
+1    Volatility  0.010372
+2        Sharpe -0.190954
+3          CAGR -0.043963
+4  Max Drawdown -0.449314
+
+These are the results for crossover over returns:
+
+        metrics     value
+0   Mean Return -0.000242
+1    Volatility  0.010373
+2        Sharpe -0.371077
+3          CAGR -0.071858
+4  Max Drawdown -0.548304
