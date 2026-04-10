@@ -10,4 +10,5 @@ data/ contains all the datasets used.
 notes/ contains my research journal.
 
 Current status:
-I will include transaction costs and rollover.
+Have built realistic model.
+Moving on to parameter optimization.
