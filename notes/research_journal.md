@@ -129,7 +129,7 @@ for better tracking and enhanced metrics.
 the front month and next month datasets from it.
 I also implemented rollover in my core model.
 
-- Details: I have used nifty 50 daily futures data
+- Details: I have used nifty $50$ daily futures data for the last $10$ years.
 by downloading NSE bhavcopies from them.
 I have implemented a rollover scheme based on
 open interest of the market and have not used any other adjustments.
@@ -142,27 +142,32 @@ STT, slippage, rollover costs, etc.
 - What I did: I included transaction costs resulting from
 STT, slippage and rollover of futures in the core model.
 
-- Observation: I ran the model using these parameters:
+- Details: I ran the model using these parameters:
 
     - Short window of crossover: $7$ days
     - Long window of crossover: $21$ days
     - STT rate: $0.05\%$ for every sell position
     - Slippage rate: $0.02\%$ for every trade
 
-These are the results for crossover over prices:
+I ran the model for crossover on prices
+which is recorded in the Prices column
+and for crossover on returns, recorded in the returns column.
 
-        metrics     value
-0   Mean Return -0.000125
-1    Volatility  0.010372
-2        Sharpe -0.190954
-3          CAGR -0.043963
-4  Max Drawdown -0.449314
+| Metric      | Prices    | Returns   |
+|-------------|-----------|-----------|
+| Mean Return | -0.000125 | -0.000242 |
+| Volatility  |  0.010372 |  0.010373 |
+| Sharpe      | -0.190954 | -0.371077 |
+| CAGR        | -0.043963 | -0.071858 |
+| Max Drawdown| -0.449314 | -0.548304 |
 
-These are the results for crossover over returns:
+Mean return refers to the mean of daily returns using the model.
+Volatility refers to the standard deviation of daily returns using the model.
+Sharpe ratio is annualized (by taking a year to be $252$ days).
+CAGR means the Compounded Annual Growth Rate of the model.
+Max Drawdown refers to the maximum drawdown of returns using the model.
 
-        metrics     value
-0   Mean Return -0.000242
-1    Volatility  0.010373
-2        Sharpe -0.371077
-3          CAGR -0.071858
-4  Max Drawdown -0.548304
+We observe that both models return negative return.
+Here, we observe that crossover over prices beats returns
+after we include transaction costs [but not before]
+(price-vs-returns-%28v2.3%29).
