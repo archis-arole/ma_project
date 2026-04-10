@@ -52,8 +52,8 @@ def model(sp, lp, front_df, next_df, slippage_bps=0.0002, stt_rate=0.0005):
     prices = df['PRICE']
     returns = prices.pct_change()
 
-    ma_short = prices.rolling(sp).mean().shift(1)[lp + 1:]
-    ma_long = prices.rolling(lp).mean().shift(1)[lp + 1:]
+    ma_short = returns.rolling(sp).mean().shift(1)[lp + 1:]
+    ma_long = returns.rolling(lp).mean().shift(1)[lp + 1:]
     signal = ma_long < ma_short
     position = pd.Series(
         np.where(signal, 1, -1), index=signal.index
@@ -106,16 +106,14 @@ def model_stats(sp, lp, front_df, next_df,
         "Volatility",
         "Sharpe",
         "CAGR",
-        "Max Drawdown",
-        "Equity",
+        "Max Drawdown"
     ]
     values = [
         mean_returns,
         std_returns,
         sharpe_ratio,
         CAGR,
-        max_drawdown,
-        equity,
+        max_drawdown
     ]
     metrics_df = pd.DataFrame(
         {"metrics": metrics, "value": values}
