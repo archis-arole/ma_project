@@ -171,3 +171,6 @@ We observe that both models return negative return.
 Here, we observe that crossover over prices beats returns
 after we include transaction costs
 [but not before](#price-vs-returns-v2.3).
+
+What I will do next: I will optimize my parameters
+and also optimize my portfolio of futures.
