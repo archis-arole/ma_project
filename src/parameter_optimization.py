@@ -7,25 +7,23 @@ import seaborn as sns
 sns.set()
 
 # Split into 9 sequential chunks: first 8 with 246 rows, last with the rest.
-front_df = pd.read_csv('../data/processed/front_month_futures.csv')
-next_df = pd.read_csv('../data/processed/next_month_futures.csv')
-raw_data = model.rollover(front_df, next_df)[0]
+raw_front_df = pd.read_csv('../data/processed/front_month_futures.csv')
+raw_next_df = pd.read_csv('../data/processed/next_month_futures.csv')
+front_df = raw_front_df.copy()
+next_df = raw_next_df.copy()
 roll_indices = model.rollover(front_df, next_df)[1]
-data = raw_data.copy()
-chunks = np.array_split(data, 10)
-training_data = pd.concat(chunks[:5], ignore_index=True)
-prices = training_data["PRICE"]
-returns = prices.pct_change().dropna()
-baseline_mean_return = returns.mean()
-baseline_volatility = returns.std(ddof=1)
-baseline_sharpe_ratio = baseline_mean_return / baseline_volatility
+front_chunks = np.array_split(front_df, 10)
+next_chunks = np.array_split(next_df, 10)
+front_training = pd.concat(front_chunks[:5], ignore_index=True)
+next_training = pd.concat(next_chunks[:5], ignore_index=True)
 
 short_periods = np.arange(7, 15)
 long_periods = np.arange(15, 30)
 S, L = np.meshgrid(short_periods, long_periods, indexing="ij")
 grid = np.stack([S, L], axis=-1).reshape(-1, 2)
-sharpes = [model.model_stats(row[0], row[1], front_df, next_df).iloc[2, 1]
-           for row in grid]
+sharpes = [model.model_stats(
+    row[0], row[1], front_training, next_training
+).iloc[2, 1] for row in grid]
 print(sharpes)
 
 '''
