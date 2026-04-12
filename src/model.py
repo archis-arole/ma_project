@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+pd.set_option('future.no_silent_downcasting', True)
 
 
 def rollover(front_df, next_df):
@@ -52,8 +53,8 @@ def model(sp, lp, front_df, next_df, slippage_bps=0.0002, stt_rate=0.0005):
     prices = df['PRICE']
     returns = prices.pct_change()
 
-    ma_short = returns.rolling(sp).mean().shift(1)[lp + 1:]
-    ma_long = returns.rolling(lp).mean().shift(1)[lp + 1:]
+    ma_short = prices.rolling(sp).mean().shift(1)[lp + 1:]
+    ma_long = prices.rolling(lp).mean().shift(1)[lp + 1:]
     signal = ma_long < ma_short
     position = pd.Series(
         np.where(signal, 1, -1), index=signal.index
