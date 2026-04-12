@@ -119,8 +119,3 @@ def model_stats(sp, lp, front_df, next_df,
         {"metrics": metrics, "value": values}
     )
     return metrics_df
-
-
-front_df = pd.read_csv('../data/processed/front_month_futures.csv')
-next_df = pd.read_csv('../data/processed/next_month_futures.csv')
-print(model_stats(7, 21, front_df, next_df))
