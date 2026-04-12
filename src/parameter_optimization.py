@@ -11,7 +11,6 @@ raw_front_df = pd.read_csv('../data/processed/front_month_futures.csv')
 raw_next_df = pd.read_csv('../data/processed/next_month_futures.csv')
 front_df = raw_front_df.copy()
 next_df = raw_next_df.copy()
-roll_indices = model.rollover(front_df, next_df)[1]
 front_chunks = np.array_split(front_df, 10)
 next_chunks = np.array_split(next_df, 10)
 front_training = pd.concat(front_chunks[:5], ignore_index=True)
@@ -24,17 +23,16 @@ grid = np.stack([S, L], axis=-1).reshape(-1, 2)
 sharpes = [model.model_stats(
     row[0], row[1], front_training, next_training
 ).iloc[2, 1] for row in grid]
-print(sharpes)
+sharpes = np.array(sharpes).reshape(len(short_periods), len(long_periods))
 
-'''
 plt.figure(figsize=(8, 6))
 plt.imshow(
     sharpes,
     origin="lower",
-    aspect="auto",
+    aspect="equal",
     cmap="viridis",
-    vmin=-0.05,
-    vmax=0.10,
+    vmin=sharpes.min(),
+    vmax=sharpes.max(),
     extent=[
         long_periods.min(),
         long_periods.max(),
@@ -48,4 +46,3 @@ plt.ylabel("Short Period")
 plt.title("Sharpe Heatmap")
 plt.tight_layout()
 plt.show()
-'''
