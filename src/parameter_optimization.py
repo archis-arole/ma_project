@@ -88,3 +88,6 @@ def sharpe_heatmap(chunk_num, sp_lower_bound, sp_upper_bound,
     plt.savefig(f'../results/parameter_optimize/{filename}.png',
                 dpi=150, bbox_inches='tight')
     plt.show()
+
+
+sharpe_heatmap(5, 10, 30, 30, 100, 'test')
