@@ -175,6 +175,20 @@ after we include transaction costs
 What I will do next: I will optimize my parameters
 and also optimize my portfolio of futures.
 
+## Parameter optimization
+
+- Goal: To pick optimum parameters,
+which in this case are the short period window
+and the long period window of the moving average crossover model.
+
+- What I did: I implemented heatmaps of various metrics
+like Sharpe ratio, maximum drawdown and CAGR
+with respect to varying windows of the moving average crossover model.
+I also implemented walk-forward validation to avoid overfitting.
+
+- Note: I had already tried to implement it
+[earlier](#optimization-of-parameters-v2.0)
+
 First stage results:
 
         metrics     value
