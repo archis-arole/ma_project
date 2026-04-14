@@ -30,49 +30,48 @@ def base(sp_lower_bound, sp_upper_bound,
          lp_lower_bound, lp_upper_bound):
     short_periods = np.arange(sp_lower_bound, sp_upper_bound)
     long_periods = np.arange(lp_lower_bound, lp_upper_bound)
-    S, L = np.meshgrid(short_periods, long_periods, indexing="ij")
+    S, L = np.meshgrid(short_periods, long_periods, indexing='ij')
     grid = np.stack([S, L], axis=-1).reshape(-1, 2)
     return grid
 
 
-def sharpe_list(chunk_num, sp_lower_bound, sp_upper_bound,
-                lp_lower_bound, lp_upper_bound):
-    '''
-    Plots heatmap of sharpe ratio given various parameters:
-    chunk_num: This refers to how much of the data is now
-    included under training in the walk forward validation scheme
-    sp means short window of moving average crossover,
-    and lp is the long window.
-    It's lower and upper bounds define the extent of the heatmap
-    Finally, we have the filename argument, which saves
-    the plot in the filename we choose in ../results/parameter_optimize/
-    '''
+def metric_list(chunk_num, sp_lower_bound, sp_upper_bound,
+                lp_lower_bound, lp_upper_bound, metric):
     front_training = train_validate(chunk_num)[0]
     next_training = train_validate(chunk_num)[1]
     grid = base(sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound)
-    sharpes = [model.model_stats(
+    if metric == 'sharpe':
+        r = 2
+    elif metric == 'CAGR':
+        r = 3
+    elif metric == 'max_drawdown':
+        r = 4
+    else:
+        raise ValueError('the only possible values of metric'
+                         ' are sharpe, CAGR or max_drawdown.')
+    metrics = [model.model_stats(
         row[0], row[1], front_training, next_training
-    ).iloc[2, 1] for row in grid]
-    sharpes = np.array(sharpes).reshape(
+    ).iloc[r, 1] for row in grid]
+    metrics = np.array(metrics).reshape(
         sp_upper_bound - sp_lower_bound,
         lp_upper_bound - lp_lower_bound
     )
-    return sharpes
+    return metrics
 
 
-def sharpe_heatmap(chunk_num, sp_lower_bound, sp_upper_bound,
-                   lp_lower_bound, lp_upper_bound, filename):
-    sharpes = sharpe_list(chunk_num, sp_lower_bound, sp_upper_bound,
-                          lp_lower_bound, lp_upper_bound)
+def metric_heatmap(chunk_num, sp_lower_bound, sp_upper_bound,
+                   lp_lower_bound, lp_upper_bound, metric, filename):
+    metrics = metric_list(chunk_num, sp_lower_bound, sp_upper_bound,
+                          lp_lower_bound, lp_upper_bound, metric)
     plt.figure(figsize=(8, 6))
     plt.imshow(
-        sharpes,
-        origin="lower",
-        aspect="auto",
-        cmap="viridis",
-        vmin=sharpes.min(),
-        vmax=sharpes.max(),
+        metrics,
+        origin='lower',
+        aspect='auto',
+        cmap='viridis',
+        vmin=metrics.min(),
+        vmax=metrics.max(),
         extent=[
             lp_lower_bound,
             lp_upper_bound,
@@ -80,14 +79,11 @@ def sharpe_heatmap(chunk_num, sp_lower_bound, sp_upper_bound,
             sp_upper_bound
         ]
     )
-    plt.colorbar(label="Sharpe")
-    plt.xlabel("Long Period")
-    plt.ylabel("Short Period")
-    plt.title("Sharpe Heatmap")
+    plt.colorbar(label=f'{metric}')
+    plt.xlabel('Long Period')
+    plt.ylabel('Short Period')
+    plt.title(f'{metric} heatmap')
     plt.tight_layout()
     plt.savefig(f'../results/parameter_optimize/{filename}.png',
                 dpi=150, bbox_inches='tight')
     plt.show()
-
-
-sharpe_heatmap(5, 10, 30, 30, 100, 'test')
