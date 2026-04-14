@@ -181,19 +181,39 @@ and also optimize my portfolio of futures.
 which in this case are the short period window
 and the long period window of the moving average crossover model.
 
+- Method: Grid search and intuitive feelings
+to pick the correct parameters in order to avoid
+one-off successes with specific parameters.
+I also used walk-forward validation to avoid overfitting
+and not fall for early misleading signals.
+
+- Note: I had already tried to implement it
+[earlier](#optimization-of-parameters-v2.0),
+but I didn't complete even one stage of the validation
+when I realized the [major mistake](#major-mistake-v2.1)
+that my model wasn't realistic.
+
+- Details: The dataset has been roughly divided
+into ten equal chunks. I am training on $80\%$ of the data
+and will have the final test of the model using $20\%$ of the data.
+I also have $3$ stages of walk-forward validation.
+The first stage trains on $50\%$ of the data and is validated
+on the next $10\%$ of the data.
+We then walk forward by $10\%$ of the data to get $3$ stages.
+
+### First stage
+
 - What I did: I implemented heatmaps of various metrics
 like Sharpe ratio, maximum drawdown and CAGR
 with respect to varying windows of the moving average crossover model.
 I also implemented walk-forward validation to avoid overfitting.
 
-- Note: I had already tried to implement it
-[earlier](#optimization-of-parameters-v2.0)
-
 First stage results:
 
-        metrics     value
-0   Mean Return -0.000386
-1    Volatility  0.010434
-2        Sharpe -0.587502
-3          CAGR -0.105025
-4  Max Drawdown -0.224653
+| Metric | Value |
+|---|---|
+| Mean Return | -0.000386 |
+| Volatility | 0.010434 |
+| Sharpe | -0.587502 |
+| CAGR | -0.105025 |
+| Max Drawdown | -0.224653 |
