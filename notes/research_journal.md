@@ -237,5 +237,4 @@ And these are the results of the model on the validation dataset:
 | CAGR | -0.105025 |
 | Max Drawdown | -0.224653 |
 
-- What went wrong: No idea.
-This must be inspected right now in detail.
+- What went wrong: My model appears to be instable with regime changes.
