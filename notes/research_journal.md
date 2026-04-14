@@ -208,7 +208,26 @@ like Sharpe ratio, maximum drawdown and CAGR
 with respect to varying windows of the moving average crossover model.
 I also implemented walk-forward validation to avoid overfitting.
 
-First stage results:
+- Observations: In all the heatmaps I plotted,
+I could clearly see that there is a $5$ by $5$ grid,
+where the short window period was between $20$ and $25$,
+and long one was between $50$ and $55$.
+
+- Results: I finally picked the parameters.
+I used $22$ days for the short period window
+and $52$ days for the long period window.
+Here is the table describing the results of
+the model on the training dataset:
+
+| Metrics | Value |
+|---|---|
+| Mean Return | 0.000900 |
+| Volatility | 0.011791 |
+| Sharpe | 1.211976 |
+| CAGR | 0.232909 |
+| Max Drawdown | -0.252587 |
+
+And these are the results of the model on the validation dataset:
 
 | Metric | Value |
 |---|---|
@@ -217,3 +236,6 @@ First stage results:
 | Sharpe | -0.587502 |
 | CAGR | -0.105025 |
 | Max Drawdown | -0.224653 |
+
+- What went wrong: No idea.
+This must be inspected right now in detail.
