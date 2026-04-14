@@ -35,10 +35,8 @@ def base(sp_lower_bound, sp_upper_bound,
     return grid
 
 
-def metric_list(chunk_num, sp_lower_bound, sp_upper_bound,
+def metric_list(front_df, next_df, sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound, metric):
-    front_training = train_validate(chunk_num)[0]
-    next_training = train_validate(chunk_num)[1]
     grid = base(sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound)
     if metric == 'sharpe':
@@ -51,7 +49,7 @@ def metric_list(chunk_num, sp_lower_bound, sp_upper_bound,
         raise ValueError('the only possible values of metric'
                          ' are sharpe, CAGR or max_drawdown.')
     metrics = [model.model_stats(
-        row[0], row[1], front_training, next_training
+        row[0], row[1], front_df, next_df
     ).iloc[r, 1] for row in grid]
     metrics = np.array(metrics).reshape(
         sp_upper_bound - sp_lower_bound,
@@ -60,9 +58,10 @@ def metric_list(chunk_num, sp_lower_bound, sp_upper_bound,
     return metrics
 
 
-def metric_heatmap(chunk_num, sp_lower_bound, sp_upper_bound,
+def metric_heatmap(front_df, next_df, sp_lower_bound, sp_upper_bound,
                    lp_lower_bound, lp_upper_bound, metric, filename):
-    metrics = metric_list(chunk_num, sp_lower_bound, sp_upper_bound,
+    metrics = metric_list(front_df, next_df,
+                          sp_lower_bound, sp_upper_bound,
                           lp_lower_bound, lp_upper_bound, metric)
     plt.figure(figsize=(8, 6))
     plt.imshow(
