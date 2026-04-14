@@ -174,3 +174,12 @@ after we include transaction costs
 
 What I will do next: I will optimize my parameters
 and also optimize my portfolio of futures.
+
+First stage results:
+
+        metrics     value
+0   Mean Return -0.000386
+1    Volatility  0.010434
+2        Sharpe -0.587502
+3          CAGR -0.105025
+4  Max Drawdown -0.224653
