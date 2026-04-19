@@ -256,3 +256,7 @@ validation results:
 2        Sharpe -0.827509
 3          CAGR -0.106446
 4  Max Drawdown -0.121852
+
+- Observation: Model works only in covid.
+Do regime change checks
+Check progress separately.
