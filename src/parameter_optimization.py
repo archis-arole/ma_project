@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import utils
 
 sns.set()
 
@@ -92,6 +93,20 @@ def metric_heatmap(front_df, next_df, sp_lower_bound, sp_upper_bound,
     plt.show()
 
 
-ft, nt, fv, nv = train_validate(6)
-metric_heatmap(fv, nv, 10, 30, 30, 100, 'sharpe',
-               'validation_sharpe_2')
+chunk_num = 6
+sp_lower_bound = 10
+sp_upper_bound = 30
+lp_lower_bound = 30
+lp_upper_bound = 100
+sp = 22
+lp = 52
+
+ft, nt, fv, nv = train_validate(chunk_num)
+# metric_heatmap(ft, nt, sp_lower_bound, sp_upper_bound,
+#                lp_lower_bound, lp_upper_bound, 'mean',
+#                'mean_training_2')
+# print(model.model_stats(sp, lp, ft, nt))
+# print(model.model_stats(sp, lp, fv, nv))
+fig = utils.plot_equity_curve(model.model(22, 52, ft, nt)[0])
+fig.savefig('../results/parameter_optimize/equity_curve_22_52_2.png')
+plt.show()
