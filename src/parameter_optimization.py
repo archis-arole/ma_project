@@ -39,7 +39,11 @@ def metric_list(front_df, next_df, sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound, metric):
     grid = base(sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound)
-    if metric == 'sharpe':
+    if metric == 'mean':
+        r = 0
+    elif metric == 'volatility':
+        r = 1
+    elif metric == 'sharpe':
         r = 2
     elif metric == 'CAGR':
         r = 3
@@ -86,3 +90,8 @@ def metric_heatmap(front_df, next_df, sp_lower_bound, sp_upper_bound,
     plt.savefig(f'../results/parameter_optimize/{filename}.png',
                 dpi=150, bbox_inches='tight')
     plt.show()
+
+
+ft, nt, fv, nv = train_validate(6)
+metric_heatmap(fv, nv, 10, 30, 30, 100, 'sharpe',
+               'validation_sharpe_2')
