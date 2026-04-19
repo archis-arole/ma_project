@@ -238,3 +238,21 @@ And these are the results of the model on the validation dataset:
 | Max Drawdown | -0.224653 |
 
 - What went wrong: My model appears to be instable with regime changes.
+
+### Second stage
+
+training results:
+        metrics     value
+0   Mean Return  0.000648
+1    Volatility  0.011544
+2        Sharpe  0.890517
+3          CAGR  0.157742
+4  Max Drawdown -0.252587
+
+validation results:
+        metrics     value
+0   Mean Return -0.000415
+1    Volatility  0.007961
+2        Sharpe -0.827509
+3          CAGR -0.106446
+4  Max Drawdown -0.121852
