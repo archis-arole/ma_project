@@ -241,22 +241,24 @@ And these are the results of the model on the validation dataset:
 
 ### Second stage
 
-training results:
-        metrics     value
-0   Mean Return  0.000648
-1    Volatility  0.011544
-2        Sharpe  0.890517
-3          CAGR  0.157742
-4  Max Drawdown -0.252587
+- What I did: After plotting the heatmaps for this stage,
+I also remembered that I could use the equity curve
+to track the growth of my equity.
 
-validation results:
-        metrics     value
-0   Mean Return -0.000415
-1    Volatility  0.007961
-2        Sharpe -0.827509
-3          CAGR -0.106446
-4  Max Drawdown -0.121852
+- Observation: Many of the models having good results,
+have actually only done really well in one financial year
+which was April $2020$ to April $2021$.
+This is consistent with the way nifty had a good bull run
+during this period which is when COVID struck.
 
-- Observation: Model works only in covid.
-Do regime change checks
-Check progress separately.
+- Details: I plotted the equity curves for
+a few combinations of long period and short period parameters,
+like $(22, 52)$, $(30, 40)$ and $(15, 70)$.
+These all had good sharpe in the training dataset
+and all the equity curves followed the same pattern
+as laid out in our observation.
+
+- What I will do next: I will evaluate the model
+separately for the pre-COVID, COVID and post-COVID regimes.
+Here the COVID regime refers to only that one financial year
+from April $2020$ to April $2021$.
