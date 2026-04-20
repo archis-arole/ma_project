@@ -262,3 +262,26 @@ as laid out in our observation.
 separately for the pre-COVID, COVID and post-COVID regimes.
 Here the COVID regime refers to only that one financial year
 from April $2020$ to April $2021$.
+
+### Third stage
+
+Results of 22 52 model in regime change:
+
+        metrics     value
+0   Mean Return  0.000629
+1    Volatility  0.011532
+2        Sharpe  0.865953
+3          CAGR  0.152448
+4  Max Drawdown -0.186039
+        metrics     value
+0   Mean Return  0.001916
+1    Volatility  0.011115
+2        Sharpe  2.736985
+3          CAGR  0.595159
+4  Max Drawdown -0.073561
+        metrics     value
+0   Mean Return -0.000613
+1    Volatility  0.009769
+2        Sharpe -0.996307
+3          CAGR -0.153415
+4  Max Drawdown -0.370126
