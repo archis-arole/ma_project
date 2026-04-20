@@ -66,8 +66,6 @@ def model(sp, lp, front_df, next_df, slippage_bps=0.0002, stt_rate=0.0005):
         signal, 1, -1
     )
 
-    slippage_bps = 0.0002
-    stt_rate = 0.0005
     roll_flag = pd.Series(
         model_returns.index.isin(roll_indices),
         index=model_returns.index
@@ -127,3 +125,29 @@ def model_stats(sp, lp, front_df, next_df,
         {'metrics': metrics, 'value': values}
     )
     return metrics_df
+
+
+def baseline(front_df, next_df,
+             slippage_bps=0.0002, stt_rate=0.0005):
+    df, roll_indices = rollover(front_df, next_df)
+    prices = df['PRICE']
+    returns = prices.pct_change().dropna()
+
+    roll_flag = pd.Series(
+        returns.index.isin(roll_indices),
+        index=returns.index
+    )
+    legs = 2 * roll_flag
+    sell_legs = roll_flag
+    entry_flag = pd.Series(0, index=returns.index)
+    entry_flag.iloc[0] = 1
+
+    slippage_cost = slippage_bps * legs
+    stt_cost = stt_rate * sell_legs
+    entry_slippage = slippage_bps * entry_flag
+    cost = slippage_cost + stt_cost + entry_slippage
+
+    net_returns = returns - cost
+    equity_curve = (1 + net_returns).cumprod()
+
+    return equity_curve, net_returns
