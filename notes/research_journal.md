@@ -238,6 +238,7 @@ And these are the results of the model on the validation dataset:
 | Max Drawdown | -0.224653 |
 
 - What went wrong: My model appears to be instable with regime changes.
+This is discovered in the second stage of walk-forward validation.
 
 ### Second stage
 
@@ -265,50 +266,45 @@ from April $2020$ to April $2021$.
 
 ### Third stage
 
-Results of 22 52 model in regime change:
+- What I did: I plotted heatmaps of the metrics
+for $3$ regimes, pre-COVID, COVID and post-COVID regimes.
+On that basis, I chose parameters which had greatest regime stability
+over parameters which had better sharpe only due to the COVID regime.
 
-        metrics     value
-0   Mean Return  0.000629
-1    Volatility  0.011532
-2        Sharpe  0.865953
-3          CAGR  0.152448
-4  Max Drawdown -0.186039
-        metrics     value
-0   Mean Return  0.001916
-1    Volatility  0.011115
-2        Sharpe  2.736985
-3          CAGR  0.595159
-4  Max Drawdown -0.073561
-        metrics     value
-0   Mean Return -0.000613
-1    Volatility  0.009769
-2        Sharpe -0.996307
-3          CAGR -0.153415
-4  Max Drawdown -0.370126
+- Observation: Many combinations of these parameters
+have one regime where there is negative sharpe.
+It's either pre-COVID or post-COVID.
+It is interesting to note that the pre-COVID regime
+favoured models which were slower to change
+while the post-COVID regime favoured models which were faster to change.
 
-Thought 9 36 seemed to be good. It's results:
+- Results: These are the results of the original model
+with fast moving average of $22$ days
+and slow moving average of $52$ days.
 
-        metrics     value
-0   Mean Return  0.000340
-1    Volatility  0.011474
-2        Sharpe  0.470271
-3          CAGR  0.071659
-4  Max Drawdown -0.270137
-        metrics     value
-0   Mean Return  0.000824
-1    Volatility  0.011367
-2        Sharpe  1.151024
-3          CAGR  0.210937
-4  Max Drawdown -0.169462
-        metrics     value
-0   Mean Return  0.000050
-1    Volatility  0.009652
-2        Sharpe  0.082433
-3          CAGR  0.000936
-4  Max Drawdown -0.176477
-        metrics     value
-0   Mean Return  0.000141
-1    Volatility  0.006641
-2        Sharpe  0.337521
-3          CAGR  0.030508
-4  Max Drawdown -0.108726
+| Metric       | Pre-COVID Regime | COVID Regime | Post-COVID Regime |
+| ------------ | ---------------: | -----------: | ----------------: |
+| Mean Return  |         0.000629 |     0.001916 |         -0.000613 |
+| Volatility   |         0.011532 |     0.011115 |          0.009769 |
+| Sharpe       |         0.865953 |     2.736985 |         -0.996307 |
+| CAGR         |         0.152448 |     0.595159 |         -0.153415 |
+| Max Drawdown |        -0.186039 |    -0.073561 |         -0.370126 |
+
+It is clear that this model is dangerous to use
+in the post-COVID regime and hence we reject this model
+even if it maximizes sharpe overall.
+
+I observed that there is only one small region
+which maintained positive sharpe throughout regimes.
+Out of this region, I took a sample where
+the fast moving average was for $9$ days and
+the slow moving average was for $36$ days.
+These are the results of that model:
+
+| Metric       | Pre-COVID Regime | COVID Regime | Post-COVID Regime | Validation |
+| ------------ | ---------------: | -----------: | ----------------: | ---------: |
+| Mean Return  |         0.000340 |     0.000824 |          0.000050 |   0.000141 |
+| Volatility   |         0.011474 |     0.011367 |          0.009652 |   0.006641 |
+| Sharpe       |         0.470271 |     1.151024 |          0.082433 |   0.337521 |
+| CAGR         |         0.071659 |     0.210937 |          0.000936 |   0.030508 |
+| Max Drawdown |        -0.270137 |    -0.169462 |         -0.176477 |  -0.108726 |
