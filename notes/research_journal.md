@@ -285,3 +285,30 @@ Results of 22 52 model in regime change:
 2        Sharpe -0.996307
 3          CAGR -0.153415
 4  Max Drawdown -0.370126
+
+Thought 9 36 seemed to be good. It's results:
+
+        metrics     value
+0   Mean Return  0.000340
+1    Volatility  0.011474
+2        Sharpe  0.470271
+3          CAGR  0.071659
+4  Max Drawdown -0.270137
+        metrics     value
+0   Mean Return  0.000824
+1    Volatility  0.011367
+2        Sharpe  1.151024
+3          CAGR  0.210937
+4  Max Drawdown -0.169462
+        metrics     value
+0   Mean Return  0.000050
+1    Volatility  0.009652
+2        Sharpe  0.082433
+3          CAGR  0.000936
+4  Max Drawdown -0.176477
+        metrics     value
+0   Mean Return  0.000141
+1    Volatility  0.006641
+2        Sharpe  0.337521
+3          CAGR  0.030508
+4  Max Drawdown -0.108726
