@@ -90,13 +90,21 @@ sp_lower_bound = 10
 sp_upper_bound = 30
 lp_lower_bound = 30
 lp_upper_bound = 100
-sp = 7
-lp = 21
+sp = 22
+lp = 52
 
 # f and n means front and next month futures
 # and t and v mean training and validation
 # and pre and post mean pre and post covid regimes
-front_training = pd.concat(front_chunks[:chunk_num], ignore_index=True)
-next_training = pd.concat(next_chunks[:chunk_num], ignore_index=True)
-front_validation = front_chunks[chunk_num].reset_index(drop=True)
-next_validation = next_chunks[chunk_num].reset_index(drop=True)
+ft_pre = pd.concat(front_chunks[:4], ignore_index=True)
+nt_pre = pd.concat(next_chunks[:4], ignore_index=True)
+ft_covid = front_chunks[4].reset_index(drop=True)
+nt_covid = next_chunks[4].reset_index(drop=True)
+ft_post = pd.concat(front_chunks[5:chunk_num], ignore_index=True)
+nt_post = pd.concat(next_chunks[5:chunk_num], ignore_index=True)
+fv = front_chunks[chunk_num].reset_index(drop=True)
+nv = next_chunks[chunk_num].reset_index(drop=True)
+
+metric_heatmap(ft_covid, nt_covid, sp_lower_bound, sp_upper_bound,
+               lp_lower_bound, lp_upper_bound, 'sharpe',
+               'covid_sharpe_heatmap_3')
