@@ -10,29 +10,29 @@ def rollover(front_df, next_df):
     - combined_df: chosen rows from front/next
     - roll_indices: integer indices where roll happens
     '''
-    required_cols = ["DATE", "EXPIRY", "PRICE", "OI"]
+    required_cols = ['DATE', 'EXPIRY', 'PRICE', 'OI']
     df = pd.merge(
         front_df[required_cols],
         next_df[required_cols],
-        on="DATE",
-        suffixes=("_front", "_next"),
-    ).sort_values("DATE")
+        on='DATE',
+        suffixes=('_front', '_next'),
+    ).sort_values('DATE')
 
-    roll_trigger = df["OI_next"] > df["OI_front"]
-    use_next = roll_trigger.groupby(df["EXPIRY_front"]).cummax()
+    roll_trigger = df['OI_next'] > df['OI_front']
+    use_next = roll_trigger.groupby(df['EXPIRY_front']).cummax()
     roll_start = use_next & ~use_next.shift(1).fillna(False)
     roll_indices = list(df.index[roll_start])
     combined_df = df.copy()
-    combined_df["EXPIRY"] = df["EXPIRY_front"].where(
-        ~use_next, df["EXPIRY_next"]
+    combined_df['EXPIRY'] = df['EXPIRY_front'].where(
+        ~use_next, df['EXPIRY_next']
     )
-    combined_df["PRICE"] = df["PRICE_front"].where(
-        ~use_next, df["PRICE_next"]
+    combined_df['PRICE'] = df['PRICE_front'].where(
+        ~use_next, df['PRICE_next']
     )
-    combined_df["OI"] = df["OI_front"].where(
-        ~use_next, df["OI_next"]
+    combined_df['OI'] = df['OI_front'].where(
+        ~use_next, df['OI_next']
     )
-    combined_df = combined_df[["DATE", "EXPIRY", "PRICE", "OI"]]
+    combined_df = combined_df[['DATE', 'EXPIRY', 'PRICE', 'OI']]
     return combined_df, roll_indices
 
 
@@ -85,14 +85,15 @@ def model(sp, lp, front_df, next_df, slippage_bps=0.0002, stt_rate=0.0005):
 
     net_returns = model_returns - cost
     equity_curve = (1 + net_returns).cumprod()
+    trades = (position_change != 0).sum()
 
-    return equity_curve, net_returns
+    return equity_curve, net_returns, trades
 
 
 def model_stats(sp, lp, front_df, next_df,
                 slippage_bps=0.0002, stt_rate=0.0005):
-    equity_curve, model_returns = model(sp, lp, front_df, next_df,
-                                        slippage_bps, stt_rate)
+    equity_curve, model_returns, trades = model(sp, lp, front_df, next_df,
+                                                slippage_bps, stt_rate)
     equity = equity_curve.iloc[-1]
     mean_returns = model_returns.mean()
     std_returns = model_returns.std(ddof=1)
@@ -102,21 +103,27 @@ def model_stats(sp, lp, front_df, next_df,
     running_max = equity_curve.cummax()
     drawdown = equity_curve / running_max - 1
     max_drawdown = drawdown.min()
+    calmar_ratio = CAGR / np.abs(max_drawdown)
+    trade_percent = trades / years
     metrics = [
-        "Mean Return",
-        "Volatility",
-        "Sharpe",
-        "CAGR",
-        "Max Drawdown"
+        'Mean Return',
+        'Volatility',
+        'Sharpe',
+        'CAGR',
+        'Max Drawdown',
+        'Calmar',
+        'Trades/year',
     ]
     values = [
         mean_returns,
         std_returns,
         sharpe_ratio,
         CAGR,
-        max_drawdown
+        max_drawdown,
+        calmar_ratio,
+        trade_percent
     ]
     metrics_df = pd.DataFrame(
-        {"metrics": metrics, "value": values}
+        {'metrics': metrics, 'value': values}
     )
     return metrics_df
