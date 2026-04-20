@@ -30,21 +30,24 @@ def base(sp_lower_bound, sp_upper_bound,
 
 def metric_list(front_df, next_df, sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound, metric):
+
+    metric_map = {
+        'mean': 0,
+        'volatility': 1,
+        'sharpe': 2,
+        'CAGR': 3,
+        'max_drawdown': 4,
+        'calmar': 5,
+        'trades': 6
+    }
+
+    try:
+        r = metric_map[metric]
+    except KeyError:
+        raise ValueError('Invalid metric name.')
+
     grid = base(sp_lower_bound, sp_upper_bound,
                 lp_lower_bound, lp_upper_bound)
-    if metric == 'mean':
-        r = 0
-    elif metric == 'volatility':
-        r = 1
-    elif metric == 'sharpe':
-        r = 2
-    elif metric == 'CAGR':
-        r = 3
-    elif metric == 'max_drawdown':
-        r = 4
-    else:
-        raise ValueError('the only possible values of metric'
-                         ' are sharpe, CAGR or max_drawdown.')
     metrics = [model.model_stats(
         row[0], row[1], front_df, next_df
     ).iloc[r, 1] for row in grid]
@@ -85,13 +88,13 @@ def metric_heatmap(front_df, next_df, sp_lower_bound, sp_upper_bound,
     plt.show()
 
 
-chunk_num = 7
-sp_lower_bound = 10
-sp_upper_bound = 30
-lp_lower_bound = 30
-lp_upper_bound = 100
-sp = 22
-lp = 52
+chunk_num = 8
+sp_lower_bound = 1
+sp_upper_bound = 20
+lp_lower_bound = 20
+lp_upper_bound = 50
+sp = 9
+lp = 36
 
 # f and n means front and next month futures
 # and t and v mean training and validation
@@ -102,9 +105,7 @@ ft_covid = front_chunks[4].reset_index(drop=True)
 nt_covid = next_chunks[4].reset_index(drop=True)
 ft_post = pd.concat(front_chunks[5:chunk_num], ignore_index=True)
 nt_post = pd.concat(next_chunks[5:chunk_num], ignore_index=True)
-fv = front_chunks[chunk_num].reset_index(drop=True)
-nv = next_chunks[chunk_num].reset_index(drop=True)
 
-metric_heatmap(ft_covid, nt_covid, sp_lower_bound, sp_upper_bound,
-               lp_lower_bound, lp_upper_bound, 'sharpe',
-               'covid_sharpe_heatmap_3')
+metric_heatmap(ft_post, nt_post, sp_lower_bound, sp_upper_bound,
+               lp_lower_bound, lp_upper_bound, 'trades',
+               'trades_post_covid_heatmap')
