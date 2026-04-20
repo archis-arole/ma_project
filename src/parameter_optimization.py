@@ -19,14 +19,6 @@ front_test = pd.concat(front_chunks[8:], ignore_index=True)
 next_test = pd.concat(next_chunks[8:], ignore_index=True)
 
 
-def train_validate(chunk_num):
-    front_training = pd.concat(front_chunks[:chunk_num], ignore_index=True)
-    next_training = pd.concat(next_chunks[:chunk_num], ignore_index=True)
-    front_validation = front_chunks[chunk_num].reset_index(drop=True)
-    next_validation = next_chunks[chunk_num].reset_index(drop=True)
-    return front_training, next_training, front_validation, next_validation
-
-
 def base(sp_lower_bound, sp_upper_bound,
          lp_lower_bound, lp_upper_bound):
     short_periods = np.arange(sp_lower_bound, sp_upper_bound)
@@ -93,20 +85,18 @@ def metric_heatmap(front_df, next_df, sp_lower_bound, sp_upper_bound,
     plt.show()
 
 
-chunk_num = 6
+chunk_num = 7
 sp_lower_bound = 10
 sp_upper_bound = 30
 lp_lower_bound = 30
 lp_upper_bound = 100
-sp = 22
-lp = 52
+sp = 7
+lp = 21
 
-ft, nt, fv, nv = train_validate(chunk_num)
-# metric_heatmap(ft, nt, sp_lower_bound, sp_upper_bound,
-#                lp_lower_bound, lp_upper_bound, 'mean',
-#                'mean_training_2')
-# print(model.model_stats(sp, lp, ft, nt))
-# print(model.model_stats(sp, lp, fv, nv))
-fig = utils.plot_equity_curve(model.model(22, 52, ft, nt)[0])
-fig.savefig('../results/parameter_optimize/equity_curve_22_52_2.png')
-plt.show()
+# f and n means front and next month futures
+# and t and v mean training and validation
+# and pre and post mean pre and post covid regimes
+front_training = pd.concat(front_chunks[:chunk_num], ignore_index=True)
+next_training = pd.concat(next_chunks[:chunk_num], ignore_index=True)
+front_validation = front_chunks[chunk_num].reset_index(drop=True)
+next_validation = next_chunks[chunk_num].reset_index(drop=True)
