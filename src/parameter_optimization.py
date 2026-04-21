@@ -7,17 +7,6 @@ import utils
 
 sns.set()
 
-# Split into 9 sequential chunks:
-# first 8 with 10% of rows, last with the rest.
-raw_front_df = pd.read_csv('../data/processed/front_month_futures.csv')
-raw_next_df = pd.read_csv('../data/processed/next_month_futures.csv')
-front_df = raw_front_df.copy()
-next_df = raw_next_df.copy()
-front_chunks = np.array_split(front_df, 10)
-next_chunks = np.array_split(next_df, 10)
-front_test = pd.concat(front_chunks[8:], ignore_index=True)
-next_test = pd.concat(next_chunks[8:], ignore_index=True)
-
 
 def base(sp_lower_bound, sp_upper_bound,
          lp_lower_bound, lp_upper_bound):
@@ -96,6 +85,17 @@ lp_upper_bound = 50
 sp = 9
 lp = 36
 
+# Split into 9 sequential chunks:
+# first 8 with 10% of rows, last with the rest.
+raw_front_df = pd.read_csv('../data/processed/front_month_futures.csv')
+raw_next_df = pd.read_csv('../data/processed/next_month_futures.csv')
+front_df = raw_front_df.copy()
+next_df = raw_next_df.copy()
+front_chunks = np.array_split(front_df, 10)
+next_chunks = np.array_split(next_df, 10)
+front_test = pd.concat(front_chunks[8:], ignore_index=True)
+next_test = pd.concat(next_chunks[8:], ignore_index=True)
+
 # f and n means front and next month futures
 # and t and v mean training and validation
 # and pre and post mean pre and post covid regimes
@@ -106,6 +106,6 @@ nt_covid = next_chunks[4].reset_index(drop=True)
 ft_post = pd.concat(front_chunks[5:chunk_num], ignore_index=True)
 nt_post = pd.concat(next_chunks[5:chunk_num], ignore_index=True)
 
-metric_heatmap(ft_post, nt_post, sp_lower_bound, sp_upper_bound,
-               lp_lower_bound, lp_upper_bound, 'trades',
-               'trades_post_covid_heatmap')
+metric_heatmap(front_test, next_test, sp_lower_bound, sp_upper_bound,
+               lp_lower_bound, lp_upper_bound, 'sharpe',
+               'sharpe_test')
