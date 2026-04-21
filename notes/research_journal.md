@@ -308,3 +308,71 @@ These are the results of that model:
 | Sharpe       |         0.470271 |     1.151024 |          0.082433 |   0.337521 |
 | CAGR         |         0.071659 |     0.210937 |          0.000936 |   0.030508 |
 | Max Drawdown |        -0.270137 |    -0.169462 |         -0.176477 |  -0.108726 |
+
+## Test
+
+Baseline results:
+
+        metrics     value
+0   Mean Return  0.000164
+1    Volatility  0.011409
+2        Sharpe  0.228316
+3          CAGR  0.025067
+4  Max Drawdown -0.390098
+5        Calmar  0.064258
+        metrics     value
+0   Mean Return  0.002077
+1    Volatility  0.012660
+2        Sharpe  2.604891
+3          CAGR  0.653346
+4  Max Drawdown -0.102229
+5        Calmar  6.390994
+        metrics     value
+0   Mean Return  0.000517
+1    Volatility  0.008766
+2        Sharpe  0.936099
+3          CAGR  0.128106
+4  Max Drawdown -0.183609
+5        Calmar  0.697712
+        metrics     value
+0   Mean Return -0.000031
+1    Volatility  0.008791
+2        Sharpe -0.056085
+3          CAGR -0.017429
+4  Max Drawdown -0.179593
+5        Calmar -0.097046
+
+Model results:
+
+        metrics     value
+0   Mean Return  0.000340
+1    Volatility  0.011474
+2        Sharpe  0.470271
+3          CAGR  0.071659
+4  Max Drawdown -0.270137
+5        Calmar  0.265269
+6   Trades/year  6.596859
+        metrics     value
+0   Mean Return  0.000824
+1    Volatility  0.011367
+2        Sharpe  1.151024
+3          CAGR  0.210937
+4  Max Drawdown -0.169462
+5        Calmar  1.244748
+6   Trades/year  3.600000
+        metrics     value
+0   Mean Return  0.000117
+1    Volatility  0.008645
+2        Sharpe  0.215232
+3          CAGR  0.020350
+4  Max Drawdown -0.176477
+5        Calmar  0.115312
+6   Trades/year  8.590909
+        metrics      value
+0   Mean Return   0.000049
+1    Volatility   0.008950
+2        Sharpe   0.087117
+3          CAGR   0.002285
+4  Max Drawdown  -0.186871
+5        Calmar   0.012225
+6   Trades/year  10.477024
