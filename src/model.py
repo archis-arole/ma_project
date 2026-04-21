@@ -151,3 +151,39 @@ def baseline(front_df, next_df,
     equity_curve = (1 + net_returns).cumprod()
 
     return equity_curve, net_returns
+
+
+def baseline_stats(front_df, next_df,
+                   slippage_bps=0.0002, stt_rate=0.0005):
+    equity_curve, net_returns = baseline(front_df, next_df,
+                                         slippage_bps=0.0002, stt_rate=0.0005)
+    equity = equity_curve.iloc[-1]
+    mean_returns = net_returns.mean()
+    std_returns = net_returns.std(ddof=1)
+    sharpe_ratio = mean_returns / std_returns * np.sqrt(252)
+    years = len(equity_curve) / 252
+    CAGR = equity ** (1 / years) - 1
+    running_max = equity_curve.cummax()
+    drawdown = equity_curve / running_max - 1
+    max_drawdown = drawdown.min()
+    calmar_ratio = CAGR / np.abs(max_drawdown)
+    metrics = [
+        'Mean Return',
+        'Volatility',
+        'Sharpe',
+        'CAGR',
+        'Max Drawdown',
+        'Calmar',
+    ]
+    values = [
+        mean_returns,
+        std_returns,
+        sharpe_ratio,
+        CAGR,
+        max_drawdown,
+        calmar_ratio,
+    ]
+    metrics_df = pd.DataFrame(
+        {'metrics': metrics, 'value': values}
+    )
+    return metrics_df
