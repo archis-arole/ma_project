@@ -175,7 +175,7 @@ after we include transaction costs
 What I will do next: I will optimize my parameters
 and also optimize my portfolio of futures.
 
-## Parameter optimization
+## Parameter optimization (v3.1)
 
 - Goal: To pick optimum parameters,
 which in this case are the short period window
@@ -309,6 +309,10 @@ These are the results of that model:
 | CAGR         |         0.071659 |     0.210937 |          0.000936 |   0.030508 |
 | Max Drawdown |        -0.270137 |    -0.169462 |         -0.176477 |  -0.108726 |
 
+- What I did next: Created a baseline strategy for comparison
+and added a few more metrics for better reporting
+before testing on the chosen parameters.
+
 ## Test
 
 Baseline results:
@@ -341,6 +345,13 @@ Baseline results:
 3          CAGR -0.017429
 4  Max Drawdown -0.179593
 5        Calmar -0.097046
+        metrics     value
+0   Mean Return  0.000419
+1    Volatility  0.010332
+2        Sharpe  0.644197
+3          CAGR  0.096467
+4  Max Drawdown -0.390098
+5        Calmar  0.247290
 
 Model results:
 
@@ -376,3 +387,11 @@ Model results:
 4  Max Drawdown  -0.186871
 5        Calmar   0.012225
 6   Trades/year  10.477024
+        metrics     value
+0   Mean Return  0.000187
+1    Volatility  0.010354
+2        Sharpe  0.287210
+3          CAGR  0.034320
+4  Max Drawdown -0.319078
+5        Calmar  0.107558
+6   Trades/year  8.169060
