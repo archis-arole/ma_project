@@ -315,11 +315,15 @@ before testing on the chosen parameters.
 
 ### Final Test Evaluation
 
-- Objective: Evaluate selected 9/36 MA crossover parameters on held-out test data not used during optimization.
+- Objective: Evaluate selected 9/36 MA crossover parameters on held-out test
+  data not used during optimization.
 
-- Result: Strategy marginally outperformed passive benchmark on test-period risk-adjusted metrics, but absolute returns were weak.
+- Result: Strategy marginally outperformed passive benchmark on test-period
+  risk-adjusted metrics, but absolute returns were weak.
 
-- Interpretation: Model retained some out-of-sample robustness. However, full-sample performance remains inferior to passive exposure, indicating limited standalone edge.
+- Interpretation: Model retained some out-of-sample robustness. However,
+  full-sample performance remains inferior to passive exposure, indicating
+  limited standalone edge.
 
 - Key Observations:
 
@@ -328,6 +332,7 @@ before testing on the chosen parameters.
     - Return generation insufficient after costs
     - Simplicity of MA crossover likely limits alpha potential
 
-- Decision: Parameter optimization cycle concluded. No further parameter tweaking to avoid overfitting.
+- Decision: Parameter optimization cycle concluded. No further parameter
+  tweaking to avoid overfitting.
 
 - Next Steps: Shift focus from signal tuning to portfolio construction.

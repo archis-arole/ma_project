@@ -5,19 +5,26 @@
 - **Data Frequency:** Daily
 - **Instrument:** Nifty 50 Futures
 - **Model:** 9 / 36 Moving Average Crossover
-- **Test Split:** Final 20% of observations held out for out-of-sample evaluation
+- **Test Split:** Final 20% of observations held out for out-of-sample
+  evaluation
 
 ---
 
 # Executive Summary
 
-This study evaluates a 9/36 moving average crossover strategy against passive long exposure to Nifty 50 futures over a 10-year period using daily data.
+This study evaluates a 9/36 moving average crossover strategy against passive
+long exposure to Nifty 50 futures over a 10-year period using daily data.
 
-Results indicate that the crossover model did **not outperform passive exposure on total return over the full sample**, but it did reduce drawdown and showed stronger performance in selected market regimes.
+Results indicate that the crossover model did **not outperform passive
+exposure on total return over the full sample**, but it did reduce drawdown
+and showed stronger performance in selected market regimes.
 
-The strategy performed best during the pre-Covid period, underperformed materially during the Covid recovery regime, and delivered modest but slightly better results than passive exposure in the final out-of-sample period.
+The strategy performed best during the pre-Covid period, underperformed
+materially during the Covid recovery regime, and delivered modest but slightly
+better results than passive exposure in the final out-of-sample period.
 
-Overall, the model appears more useful as a **risk-management or tactical overlay** than as a pure return-maximizing standalone strategy.
+Overall, the model appears more useful as a **risk-management or tactical
+overlay** than as a pure return-maximizing standalone strategy.
 
 ---
 
@@ -68,23 +75,32 @@ Overall, the model appears more useful as a **risk-management or tactical overla
 
 ## Pre-Covid
 
-The crossover model performed best during this period, outperforming passive exposure across return and risk metrics. This suggests cleaner trend structure and favorable momentum persistence.
+The crossover model performed best during this period, outperforming passive
+exposure across return and risk metrics. This suggests cleaner trend structure
+and favorable momentum persistence.
 
 ## Covid
 
-Passive exposure strongly outperformed. The sharp rebound following the crash favored continuous long positioning, while trend-following systems can lag during rapid reversals.
+Passive exposure strongly outperformed. The sharp rebound following the crash
+favored continuous long positioning, while trend-following systems can lag
+during rapid reversals.
 
 ## Post-Covid
 
-The model underperformed significantly. Higher trade frequency suggests whipsaw conditions and reduced trend persistence.
+The model underperformed significantly. Higher trade frequency suggests
+whipsaw conditions and reduced trend persistence.
 
 ## Out-of-Sample Period
 
-Both approaches produced weak returns. However, the crossover model marginally exceeded passive exposure, indicating some robustness despite low absolute performance.
+Both approaches produced weak returns. However, the crossover model marginally
+exceeded passive exposure, indicating some robustness despite low absolute
+performance.
 
 ## Full Sample
 
-Passive exposure produced materially higher CAGR and Sharpe ratio. The crossover model, however, reduced peak drawdown by roughly 7 percentage points.
+Passive exposure produced materially higher CAGR and Sharpe ratio. The
+crossover model, however, reduced peak drawdown by roughly 7 percentage
+points.
 
 ---
 
@@ -104,14 +120,16 @@ Higher trade counts in later periods are consistent with noisier market structur
 
 # Interpretation
 
-The 9/36 crossover does not appear to generate persistent excess return over passive futures exposure after realistic costs. Its primary value lies in:
+The 9/36 crossover does not appear to generate persistent excess return over
+passive futures exposure after realistic costs. Its primary value lies in:
 
 - Drawdown reduction
 - Systematic positioning discipline
 - Potential diversification with other strategies
 - Tactical trend participation during cleaner regimes
 
-As a standalone strategy, return performance was insufficient to justify replacing passive exposure over this sample.
+As a standalone strategy, return performance was insufficient to justify
+replacing passive exposure over this sample.
 
 ---
 
@@ -128,6 +146,9 @@ As a standalone strategy, return performance was insufficient to justify replaci
 
 # Final Conclusion
 
-The strategy demonstrates some defensive and regime-dependent usefulness but does not outperform passive Nifty futures exposure over the full 2016–2026 sample.
+The strategy demonstrates some defensive and regime-dependent usefulness but
+does not outperform passive Nifty futures exposure over the full 2016–2026
+sample.
 
-The most reasonable practical use case is as a component within a broader portfolio of uncorrelated strategies rather than as a sole investment system.
+The most reasonable practical use case is as a component within a broader
+portfolio of uncorrelated strategies rather than as a sole investment system.
