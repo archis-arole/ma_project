@@ -99,7 +99,7 @@ which not only results in no compounding of returns,
 but also results in huge transaction costs.
 Moreover I realized that I cannot short stocks easily.
 
-- What I will do next: I will rewrrite the model to include transaction costs.
+- What I will do next: I will rewrite the model to include transaction costs.
 I will now use futures data instead of stocks data.
 I will also not square off every single day and instead
 I will square off every time my position changes
@@ -237,7 +237,7 @@ And these are the results of the model on the validation dataset:
 | CAGR | -0.105025 |
 | Max Drawdown | -0.224653 |
 
-- What went wrong: My model appears to be instable with regime changes.
+- What went wrong: My model appears to be unstable with regime changes.
 This is discovered in the second stage of walk-forward validation.
 
 ### Second stage
@@ -313,85 +313,21 @@ These are the results of that model:
 and added a few more metrics for better reporting
 before testing on the chosen parameters.
 
-## Test
+### Final Test Evaluation
 
-Baseline results:
+- Objective: Evaluate selected 9/36 MA crossover parameters on held-out test data not used during optimization.
 
-        metrics     value
-0   Mean Return  0.000164
-1    Volatility  0.011409
-2        Sharpe  0.228316
-3          CAGR  0.025067
-4  Max Drawdown -0.390098
-5        Calmar  0.064258
-        metrics     value
-0   Mean Return  0.002077
-1    Volatility  0.012660
-2        Sharpe  2.604891
-3          CAGR  0.653346
-4  Max Drawdown -0.102229
-5        Calmar  6.390994
-        metrics     value
-0   Mean Return  0.000517
-1    Volatility  0.008766
-2        Sharpe  0.936099
-3          CAGR  0.128106
-4  Max Drawdown -0.183609
-5        Calmar  0.697712
-        metrics     value
-0   Mean Return -0.000031
-1    Volatility  0.008791
-2        Sharpe -0.056085
-3          CAGR -0.017429
-4  Max Drawdown -0.179593
-5        Calmar -0.097046
-        metrics     value
-0   Mean Return  0.000419
-1    Volatility  0.010332
-2        Sharpe  0.644197
-3          CAGR  0.096467
-4  Max Drawdown -0.390098
-5        Calmar  0.247290
+- Result: Strategy marginally outperformed passive benchmark on test-period risk-adjusted metrics, but absolute returns were weak.
 
-Model results:
+- Interpretation: Model retained some out-of-sample robustness. However, full-sample performance remains inferior to passive exposure, indicating limited standalone edge.
 
-        metrics     value
-0   Mean Return  0.000340
-1    Volatility  0.011474
-2        Sharpe  0.470271
-3          CAGR  0.071659
-4  Max Drawdown -0.270137
-5        Calmar  0.265269
-6   Trades/year  6.596859
-        metrics     value
-0   Mean Return  0.000824
-1    Volatility  0.011367
-2        Sharpe  1.151024
-3          CAGR  0.210937
-4  Max Drawdown -0.169462
-5        Calmar  1.244748
-6   Trades/year  3.600000
-        metrics     value
-0   Mean Return  0.000117
-1    Volatility  0.008645
-2        Sharpe  0.215232
-3          CAGR  0.020350
-4  Max Drawdown -0.176477
-5        Calmar  0.115312
-6   Trades/year  8.590909
-        metrics      value
-0   Mean Return   0.000049
-1    Volatility   0.008950
-2        Sharpe   0.087117
-3          CAGR   0.002285
-4  Max Drawdown  -0.186871
-5        Calmar   0.012225
-6   Trades/year  10.477024
-        metrics     value
-0   Mean Return  0.000187
-1    Volatility  0.010354
-2        Sharpe  0.287210
-3          CAGR  0.034320
-4  Max Drawdown -0.319078
-5        Calmar  0.107558
-6   Trades/year  8.169060
+- Key Observations:
+
+    - No collapse on unseen data
+    - Defensive characteristics present but inconsistent
+    - Return generation insufficient after costs
+    - Simplicity of MA crossover likely limits alpha potential
+
+- Decision: Parameter optimization cycle concluded. No further parameter tweaking to avoid overfitting.
+
+- Next Steps: Shift focus from signal tuning to portfolio construction.
