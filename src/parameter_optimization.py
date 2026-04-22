@@ -106,6 +106,7 @@ nt_covid = next_chunks[4].reset_index(drop=True)
 ft_post = pd.concat(front_chunks[5:chunk_num], ignore_index=True)
 nt_post = pd.concat(next_chunks[5:chunk_num], ignore_index=True)
 
-metric_heatmap(front_test, next_test, sp_lower_bound, sp_upper_bound,
-               lp_lower_bound, lp_upper_bound, 'sharpe',
-               'sharpe_test')
+strategy_curve = model.model(sp, lp, front_df, next_df)[0]
+benchmark_curve = model.baseline(front_df, next_df)[0]
+fig = utils.plot_drawdown_curve_comparison(strategy_curve, benchmark_curve)
+fig.savefig('../results/parameter_optimize/drawdown_curve_comparison.png')
