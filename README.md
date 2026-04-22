@@ -1,14 +1,18 @@
-Project:
-Moving Average Crossover strategy on futures.
+# Moving Average Crossover on Nifty Futures
 
-Goal:
-To see whether this strategy produces alpha
+Systematic trading research project evaluating a 9/36 MA crossover on Nifty futures using realistic costs.
 
-Structure:
-src/ contains all the source code files.
-data/ contains all the datasets used.
-notes/ contains my research journal.
+## Key Result
 
-Current status:
-Have built realistic model.
-Moving on to parameter optimization.
+The standalone crossover strategy did not outperform passive exposure over 2016–2026, though it showed some regime-dependent defensive characteristics.
+
+## Reports
+
+- Parameter Optimization Report: `results/parameter_optimize/report.md`
+
+## Repository Structure
+
+- `src/` source code
+- `data/` datasets
+- `notes/` research journal
+- `results/` reports and charts
