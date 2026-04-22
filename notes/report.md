@@ -1,4 +1,5 @@
-# Moving Average Crossover Strategy vs Passive Nifty Futures Exposure
+# Moving Average Crossover Strategy
+
 ### Personal Quant Research Memo
 - **Study Period:** 06 Apr 2016 – 06 Apr 2026
 - **Data Frequency:** Daily
@@ -14,9 +15,21 @@ This study evaluates a 9/36 moving average crossover strategy against passive lo
 
 Results indicate that the crossover model did **not outperform passive exposure on total return over the full sample**, but it did reduce drawdown and showed stronger performance in selected market regimes.
 
-The strategy performed best during the pre-Covid period, underperformed materially during the Covid recovery regime, and delivered modest but slightly better results than passive exposure in the final out-of-sample test period.
+The strategy performed best during the pre-Covid period, underperformed materially during the Covid recovery regime, and delivered modest but slightly better results than passive exposure in the final out-of-sample period.
 
 Overall, the model appears more useful as a **risk-management or tactical overlay** than as a pure return-maximizing standalone strategy.
+
+---
+
+# Equity Curve
+
+![Equity Curve](../results/parameter_optimize/equity_curve_comparison.png)
+
+---
+
+# Drawdown Curve
+
+![Drawdown Curve](../results/parameter_optimize/drawdown_curve_comparison.png)
 
 ---
 
@@ -44,8 +57,8 @@ Overall, the model appears more useful as a **risk-management or tactical overla
 | Covid | MA Crossover | 1.15 | 21.1% | -16.9% | 1.24 |
 | Post-Covid | Passive | **0.94** | **12.8%** | -18.4% | **0.70** |
 | Post-Covid | MA Crossover | 0.22 | 2.0% | **-17.6%** | 0.12 |
-| Test (Out-of-Sample) | Passive | -0.06 | -1.7% | **-17.9%** | -0.10 |
-| Test (Out-of-Sample) | MA Crossover | **0.09** | **0.2%** | -18.7% | **0.01** |
+| Out-of-Sample | Passive | -0.06 | -1.7% | **-17.9%** | -0.10 |
+| Out-of-Sample | MA Crossover | **0.09** | **0.2%** | -18.7% | **0.01** |
 | Overall | Passive | **0.64** | **9.6%** | -39.0% | **0.25** |
 | Overall | MA Crossover | 0.29 | 3.4% | **-31.9%** | 0.11 |
 
@@ -65,7 +78,7 @@ Passive exposure strongly outperformed. The sharp rebound following the crash fa
 
 The model underperformed significantly. Higher trade frequency suggests whipsaw conditions and reduced trend persistence.
 
-## Out-of-Sample Test Period
+## Out-of-Sample Period
 
 Both approaches produced weak returns. However, the crossover model marginally exceeded passive exposure, indicating some robustness despite low absolute performance.
 
@@ -82,7 +95,7 @@ Passive exposure produced materially higher CAGR and Sharpe ratio. The crossover
 | Pre-Covid | 6.6 |
 | Covid | 3.6 |
 | Post-Covid | 8.6 |
-| Test | 10.5 |
+| Out-of-Sample | 10.5 |
 | Overall | 8.2 |
 
 Higher trade counts in later periods are consistent with noisier market structure.
@@ -107,6 +120,7 @@ As a standalone strategy, return performance was insufficient to justify replaci
 - Single market study (Nifty futures only)
 - Single parameter pair (9/36)
 - Daily frequency only
+- Leverage not included
 - Historical backtest; live execution may differ
 - Futures carry dynamics may vary over time
 
