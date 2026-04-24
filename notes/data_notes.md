@@ -1,3 +1,5 @@
+# NIFTY futures daily
+
 On july 5 2024, the data format completely changed.
 
 Old datasets:
@@ -19,3 +21,13 @@ New datasets:
 6. OpnIntrst
 7. Filename: Bhavcopy_NSE_FO_0_0_0_YYYYMMDD_F_0000.csv
 8: Date format: YYYY-MM-DD
+
+# MCX futures daily
+
+1. Date
+2. Instrument Name = FUTCOM
+3. Symbol = GOLD
+4. Expiry Date
+5. Close
+6. Open Interest(Lots)
+7. Filename: BhavCopyDateWise_DDMMYYYY.csv
