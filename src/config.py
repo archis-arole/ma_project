@@ -19,3 +19,9 @@ def filename(date):
     else:
         name = f"BhavCopy_NSE_FO_0_0_0_{year}{month2}{day}_F_0000.csv"
     return name
+
+
+USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+)
