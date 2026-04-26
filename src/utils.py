@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def view(df: pd.DataFrame):
-    """View df in sc-im"""
+    """View df in visidata"""
     filename = "df_output.csv"
     df.to_csv(filename, index=False)
     subprocess.run(["visidata", "-r", filename])
@@ -25,8 +25,16 @@ def plot_equity_curve_comparison(strategy_curve, benchmark_curve):
     """Plot strategy vs benchmark equity curves and return figure."""
     fig, ax = plt.subplots(figsize=(10, 5))
 
-    ax.plot(strategy_curve.index, strategy_curve.values, label="MA Strategy")
-    ax.plot(benchmark_curve.index, benchmark_curve.values, label="Passive Benchmark")
+    ax.plot(
+        strategy_curve.index,
+        strategy_curve.values,
+        label="MA Strategy"
+    )
+    ax.plot(
+        benchmark_curve.index,
+        benchmark_curve.values,
+        label="Passive Benchmark"
+    )
 
     ax.set_xlabel("Date")
     ax.set_ylabel("Equity")
@@ -63,8 +71,16 @@ def plot_drawdown_curve_comparison(strategy_curve, benchmark_curve):
 
     fig, ax = plt.subplots(figsize=(10, 5))
 
-    ax.plot(strategy_dd.index, strategy_dd.values, label="MA Strategy")
-    ax.plot(benchmark_dd.index, benchmark_dd.values, label="Passive Benchmark")
+    ax.plot(
+        strategy_dd.index,
+        strategy_dd.values,
+        label="MA Strategy"
+    )
+    ax.plot(
+        benchmark_dd.index,
+        benchmark_dd.values,
+        label="Passive Benchmark"
+    )
 
     ax.set_xlabel("Date")
     ax.set_ylabel("Drawdown")
