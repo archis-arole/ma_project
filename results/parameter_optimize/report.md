@@ -30,13 +30,13 @@ overlay** than as a pure return-maximizing standalone strategy.
 
 # Equity Curve
 
-![Equity Curve](../results/parameter_optimize/equity_curve_comparison.png)
+![Equity Curve](equity_curve_comparison.png)
 
 ---
 
 # Drawdown Curve
 
-![Drawdown Curve](../results/parameter_optimize/drawdown_curve_comparison.png)
+![Drawdown Curve](drawdown_curve_comparison.png)
 
 ---
 
