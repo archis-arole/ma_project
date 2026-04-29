@@ -108,5 +108,7 @@ nt_post = pd.concat(next_chunks[5:chunk_num], ignore_index=True)
 
 strategy_curve = model.model(sp, lp, front_df, next_df)[0]
 benchmark_curve = model.baseline(front_df, next_df)[0]
-fig = utils.plot_drawdown_curve_comparison(strategy_curve, benchmark_curve)
-fig.savefig('../results/parameter_optimize/drawdown_curve_comparison.png')
+fig1 = utils.plot_drawdown_curve_comparison(strategy_curve, benchmark_curve)
+fig2 = utils.plot_equity_curve_comparison(strategy_curve, benchmark_curve)
+fig1.savefig('../results/parameter_optimize/drawdown_curve_comparison.png')
+fig2.savefig('../results/parameter_optimize/equity_curve_comparison.png')
