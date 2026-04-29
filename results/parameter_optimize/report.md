@@ -30,13 +30,13 @@ overlay** than as a pure return-maximizing standalone strategy.
 
 # Equity Curve
 
-![Equity Curve](equity_curve_comparison.png)
+![Equity Curve](./equity_curve_comparison.png)
 
 ---
 
 # Drawdown Curve
 
-![Drawdown Curve](drawdown_curve_comparison.png)
+![Drawdown Curve](./drawdown_curve_comparison.png)
 
 ---
 
@@ -51,6 +51,29 @@ overlay** than as a pure return-maximizing standalone strategy.
   - STT
   - Slippage
   - Rollover costs
+
+---
+
+# Parameter Selection Framework
+
+The final 9/36 moving-average specification was not chosen arbitrarily.
+
+A grid search was conducted across candidate fast/slow MA window pairs.
+Selection emphasized robustness rather than peak in-sample Sharpe.
+
+The research process used:
+
+- Rolling walk-forward train/validation splits
+- Cross-regime evaluation (Pre-COVID, COVID, Post-COVID)
+- Preference for parameter sets with stable positive performance across regimes
+- Rejection of combinations whose results were dominated by a single market
+  regime
+
+The 9/36 pair was selected as a balanced specification showing greater
+consistency than higher-scoring but less stable alternatives.
+
+A final held-out test segment (20% of observations) was reserved for
+out-of-sample evaluation after parameter selection.
 
 ---
 
@@ -136,7 +159,6 @@ replacing passive exposure over this sample.
 # Limitations
 
 - Single market study (Nifty futures only)
-- Single parameter pair (9/36)
 - Daily frequency only
 - Leverage not included
 - Historical backtest; live execution may differ

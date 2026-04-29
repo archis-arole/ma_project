@@ -9,7 +9,18 @@ futures using realistic costs.
 - Includes transaction costs, slippage, rollover assumptions
 - In-sample / out-of-sample framework
 - Regime-wise performance analysis
+- Parameter sweep used to evaluate MA crossover combinations
 - Result: strategy reduced drawdowns but failed to beat passive exposure
+
+## Highlights
+
+- 10-year daily backtest on Nifty Futures (2016–2026)
+- Transaction costs, slippage, rollover assumptions included
+- Parameter grid search across MA combinations
+- Walk-forward optimization with rolling train/validation splits
+- Regime analysis: Pre-COVID / COVID / Post-COVID
+- Final 20% held out for out-of-sample testing
+- Result: robust but lower-return strategy vs passive benchmark
 
 ## Key Result
 
@@ -24,9 +35,13 @@ The standalone crossover strategy did not outperform passive exposure over
 
 ![Drawdown Curve](./results/parameter_optimize/drawdown_curve_comparison.png)
 
-## Reports
+## Research Process
 
-- Parameter Optimization Report: `results/parameter_optimize/report.md`
+1. Grid searched MA fast/slow windows
+2. Used walk-forward validation across rolling splits
+3. Rejected unstable parameter sets dominated by single-regime performance
+4. Selected 9/36 for regime consistency
+5. Evaluated on untouched final test set
 
 ## Repository Structure
 
@@ -34,6 +49,10 @@ The standalone crossover strategy did not outperform passive exposure over
 - `data/` datasets
 - `notes/` research journal
 - `results/` reports and charts
+
+## Reports
+
+- Parameter Optimization Report: `results/parameter_optimize/report.md`
 
 ## Disclaimer
 
