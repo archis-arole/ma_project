@@ -54,6 +54,39 @@ The standalone crossover strategy did not outperform passive exposure over
 
 - Parameter Optimization Report: `results/parameter_optimize/report.md`
 
+## Reproduce
+
+Install dependencies:
+
+```bash
+pip install -r requirements.md
+```
+
+Run from the `src/` directory:
+
+```bash
+cd src
+```
+
+Download and prepare NSE futures data:
+
+```bash
+python download.py
+python extract.py
+```
+
+Run parameter search and generate report charts:
+
+```bash
+python parameter_optimization.py
+```
+
+Outputs are saved to:
+
+```text
+results/parameter_optimize/
+```
+
 ## Disclaimer
 
 Educational research only. Not investment advice.
