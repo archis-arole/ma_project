@@ -29,11 +29,11 @@ The standalone crossover strategy did not outperform passive exposure over
 
 ## Strategy Equity Curve
 
-![Equity Curve](./results/parameter_optimize/equity_curve_comparison.png)
+![Equity Curve](./results/equity_curve_comparison.png)
 
 ## Drawdown Comparison
 
-![Drawdown Curve](./results/parameter_optimize/drawdown_curve_comparison.png)
+![Drawdown Curve](./results/drawdown_curve_comparison.png)
 
 ## Research Process
 
@@ -52,7 +52,7 @@ The standalone crossover strategy did not outperform passive exposure over
 
 ## Reports
 
-- Parameter Optimization Report: `results/parameter_optimize/report.md`
+- Parameter Optimization Report: `results/report.md`
 
 ## Reproduce
 
@@ -84,7 +84,7 @@ python parameter_optimization.py
 Outputs are saved to:
 
 ```text
-results/parameter_optimize/
+results/
 ```
 
 ## Disclaimer
