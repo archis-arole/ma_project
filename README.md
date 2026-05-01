@@ -5,15 +5,6 @@ futures using realistic costs.
 
 ## Highlights
 
-- 10-year backtest on Nifty Futures (2016–2026)
-- Includes transaction costs, slippage, rollover assumptions
-- In-sample / out-of-sample framework
-- Regime-wise performance analysis
-- Parameter sweep used to evaluate MA crossover combinations
-- Result: strategy reduced drawdowns but failed to beat passive exposure
-
-## Highlights
-
 - 10-year daily backtest on Nifty Futures (2016–2026)
 - Transaction costs, slippage, rollover assumptions included
 - Parameter grid search across MA combinations
@@ -59,7 +50,7 @@ The standalone crossover strategy did not outperform passive exposure over
 Install dependencies:
 
 ```bash
-pip install -r requirements.md
+pip install -r requirements.txt
 ```
 
 Run from the `src/` directory:
